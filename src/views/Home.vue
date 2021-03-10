@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <h1>{{ sensor }}</h1>
+    <v-btn color="primary">Test</v-btn>
   </div>
 </template>
 
