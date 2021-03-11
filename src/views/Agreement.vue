@@ -1,9 +1,9 @@
 <template>
   <v-row justify="center" align="center">
     <v-container>
-        <v-row>
-            <input type="text" class="red white--text">
-        </v-row>
+      <v-row>
+        <input type="text" class="red white--text" />
+      </v-row>
       <v-row>
         <v-col>
           <p>
@@ -66,13 +66,12 @@ export default {
     return {
       Name: "",
       buttonBool: false,
-      checkBoxBool: false,
+      checkBoxBool: false
     };
   },
   components: {},
-  beforeCreate() {},
+  beforeCreate() {}
 };
 </script>
 
-<style lang="sass" scoped>
-</style>
+<style lang="sass" scoped></style>
