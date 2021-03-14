@@ -1,11 +1,16 @@
 <template>
   <v-row justify="center" align="center">
-    <v-container>
+    <v-container class="mx-5 my-5">
       <v-row>
-        <input type="text" class="red white--text" />
+        <label>Participant Code: </label
+        ><input
+          type="text"
+          class="grey white--text inputExpansion"
+          v-model="Name"
+        />
       </v-row>
       <v-row>
-        <v-col>
+        <v-col class="px-0">
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur,
             quos quod eligendi consequuntur molestiae excepturi aspernatur omnis
@@ -46,12 +51,12 @@
           </p>
         </v-col>
       </v-row>
-      <v-row>
-        <input type="checkbox" name="" id="" />
-        <span>I agree to the terms and conditions provided</span>
+      <v-row class="mb-2">
+        <input type="checkbox" class="mt-1" v-model="checkBoxBool" />
+        <label class="ml-1">I agree to the terms and conditions provided</label>
       </v-row>
       <v-row>
-        <v-btn color="success" to="/sensorData">Agree</v-btn>
+        <v-btn color="success" to="/sensorData" :disabled="Name && !checkBoxBool">Agree</v-btn>
       </v-row>
     </v-container>
   </v-row>
@@ -66,12 +71,15 @@ export default {
     return {
       Name: "",
       buttonBool: false,
-      checkBoxBool: false
+      checkBoxBool: false,
     };
   },
   components: {},
-  beforeCreate() {}
+  beforeCreate() {},
 };
 </script>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+.inputExpansion
+  width: 100%
+</style>
