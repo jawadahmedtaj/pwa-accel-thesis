@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <h1>{{ count }}</h1>
-    <h1>{{ sensor }}</h1>
+    <h2>{{ count }}</h2>
+    <h2>{{ sensor }}</h2>
     <v-btn color="primary">Test</v-btn>
   </div>
 </template>
@@ -28,7 +28,9 @@ export default {
         Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100
       } m/s2, z: ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
-      } m/s2 `;
+      } m/s2 : ${event.timeStamp}`;
+
+      console.log("Timestamp: ", event.timeStamp);
 
       if (this.countEnabled) this.count += 1;
 

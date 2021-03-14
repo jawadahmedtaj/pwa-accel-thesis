@@ -56,7 +56,12 @@
         <label class="ml-1">I agree to the terms and conditions provided</label>
       </v-row>
       <v-row>
-        <v-btn color="success" to="/sensorData" :disabled="Name && !checkBoxBool">Agree</v-btn>
+        <v-btn
+          color="success"
+          @click="clickHandler"
+          :disabled="Name && !checkBoxBool"
+          >Agree</v-btn
+        >
       </v-row>
     </v-container>
   </v-row>
@@ -74,8 +79,13 @@ export default {
       checkBoxBool: false,
     };
   },
-  components: {},
-  beforeCreate() {},
+  methods: {
+    clickHandler(e) {
+      e.preventDefault();
+      this.$store.commit("setParticipant", this.Name);
+      this.$router.push("/sensorData")
+    },
+  },
 };
 </script>
 
