@@ -83,7 +83,7 @@ export default {
     clickHandler(e) {
       e.preventDefault();
       this.$store.commit("setParticipant", this.Name);
-      this.$router.push("/sensorData")
+      this.$router.push("/DifficultySelection")
     },
   },
 };

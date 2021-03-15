@@ -15,10 +15,16 @@ export default new Vuex.Store({
 
     },
     participant: "",
+    easyDone: false,
+    mediumDone: false,
+    hardDeone: false
   },
   mutations: {
-    setParticipant(state, data) {
-      state.participant = data;
+    setParticipant(state, name) {
+      state.participant = name;
+    },
+    setDifficulty(state, difficulty) {
+      state.[difficulty] = true;
     }
   },
   actions: {},
