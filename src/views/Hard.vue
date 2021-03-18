@@ -170,7 +170,7 @@ export default {
           if (this.colors.indexOf(this.correctAnswer) > -1)
             this.textShow = `Please select: ${this.correctAnswer} colored box`;
           else if (this.arrows.indexOf(this.correctAnswer) > -1)
-            this.textShow = `Please select: ${this.correctAnswer} colored box`;
+            this.textShow = `Please select: the arrow box`;
           else this.textShow = `Please select: ${this.correctAnswer}`;
         }
         if (this.trialCount > 18) {
