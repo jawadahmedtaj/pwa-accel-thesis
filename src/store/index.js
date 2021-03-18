@@ -25,13 +25,13 @@ export default new Vuex.Store({
       state.counter = count
     },
     easySetter(state, data) {
-      state.easy.push(data)
+      state.easy.push(...data)
     },
     mediumSetter(state, data) {
-      state.medium.push(data)
+      state.medium.push(...data)
     },
     hardSetter(state, data) {
-      state.hard.push(data)
+      state.hard.push(...data)
     },
   },
   actions: {},

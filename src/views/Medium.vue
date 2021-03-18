@@ -35,7 +35,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "Easy",
+  name: "Medium",
   data() {
     return {
       sensor: "",
@@ -144,7 +144,7 @@ export default {
           this.correctAnswer =
             tempArray[Math.floor(Math.random() * tempArray.length)];
           if (this.colors.indexOf(this.correctAnswer) > -1)
-            this.textShow = `Please select: ${this.correctAnswer} box`;
+            this.textShow = `Please select: ${this.correctAnswer} colored box`;
           else this.textShow = `Please select: ${this.correctAnswer}`;
         }
         if (this.trialCount > 18) {

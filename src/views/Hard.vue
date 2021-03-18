@@ -15,12 +15,26 @@
         >{{ number }}</v-btn
       >
       <v-btn
-        class=""
+        class="buttonAdjuster"
         color="grey"
         @click.prevent="optionClicked(character)"
         :disabled="selected"
         >{{ character }}</v-btn
       >
+      <v-btn
+        class="buttonAdjuster"
+        :color="color"
+        @click.prevent="optionClicked(character)"
+        :disabled="selected"
+      ></v-btn>
+      <v-btn
+        class=""
+        color="grey"
+        @click.prevent="optionClicked(character)"
+        :disabled="selected"
+      >
+        <v-icon>{{ arrow }}</v-icon>
+      </v-btn>
     </div>
   </v-container>
 </template>
@@ -29,7 +43,7 @@
 // @ is an alias to /src
 
 export default {
-  name: "Easy",
+  name: "Hard",
   data() {
     return {
       sensor: "",
@@ -64,6 +78,27 @@ export default {
         "Y",
         "Z",
       ],
+      colors: [
+        "brown",
+        "pink",
+        "red",
+        "black",
+        "purple",
+        "indigo",
+        "blue",
+        "cyan",
+        "teal",
+        "green",
+        "yellow",
+      ],
+      color: "grey",
+      arrows: [
+        "mdi-arrow-down-bold",
+        "mdi-arrow-left-bold",
+        "mdi-arrow-right-bold",
+        "mdi-arrow-up-bold",
+      ],
+      arrow: undefined,
       number: undefined,
       character: undefined,
       selected: false,
@@ -105,6 +140,8 @@ export default {
           this.selected = true;
           this.number = undefined;
           this.character = undefined;
+          this.color = "grey";
+          this.arrow = undefined;
           this.baseline = true;
           this.textShow = `Baseline`;
         } else {
@@ -116,16 +153,31 @@ export default {
           this.character = this.characters[
             Math.floor(Math.random() * this.characters.length)
           ];
-          const tempArray = [this.number, this.character];
+          this.color = this.colors[
+            Math.floor(Math.random() * this.colors.length)
+          ];
+          this.arrow = this.arrows[
+            Math.floor(Math.random() * this.arrows.length)
+          ];
+          const tempArray = [
+            this.number,
+            this.character,
+            this.color,
+            this.arrow,
+          ];
           this.correctAnswer =
             tempArray[Math.floor(Math.random() * tempArray.length)];
-          this.textShow = `Please select: ${this.correctAnswer}`;
+          if (this.colors.indexOf(this.correctAnswer) > -1)
+            this.textShow = `Please select: ${this.correctAnswer} colored box`;
+          else if (this.arrows.indexOf(this.correctAnswer) > -1)
+            this.textShow = `Please select: ${this.correctAnswer} colored box`;
+          else this.textShow = `Please select: ${this.correctAnswer}`;
         }
         if (this.trialCount > 18) {
           this.isStopped = false;
           this.$router.push({
             name: "Resting",
-            params: { difficulty: "Easy" },
+            params: { difficulty: "Hard" },
           });
         }
         this.trialCount++;
@@ -152,7 +204,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.questionChanger);
-    this.$store.commit("easySetter", this.holder);
+    this.$store.commit("hardSetter", this.holder);
   },
 };
 </script>
