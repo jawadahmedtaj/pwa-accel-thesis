@@ -5,19 +5,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    easy: {
-
-    },
-    medium: {
-
-    },
-    hard: {
-
-    },
+    easy: [],
+    medium: [],
+    hard: [],
     participant: "",
     easyDone: false,
     mediumDone: false,
-    hardDeone: false
+    hardDone: false,
+    counter: 0
   },
   mutations: {
     setParticipant(state, name) {
@@ -25,7 +20,19 @@ export default new Vuex.Store({
     },
     setDifficulty(state, difficulty) {
       state.[difficulty] = true;
-    }
+    },
+    countSetter(state, count) {
+      state.counter = count
+    },
+    easySetter(state, data) {
+      state.easy.push(data)
+    },
+    mediumSetter(state, data) {
+      state.medium.push(data)
+    },
+    hardSetter(state, data) {
+      state.hard.push(data)
+    },
   },
   actions: {},
   modules: {}

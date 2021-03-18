@@ -17,6 +17,11 @@
       >
       <v-btn color="primary" to="/Hard" :disabled="hardDone">Hard</v-btn>
     </div>
+    <div>
+      <v-btn class="resultAdjuster" color="warning" to="/ShowResults"
+        >Save/Show results</v-btn
+      >
+    </div>
   </v-container>
 </template>
 
@@ -48,4 +53,8 @@ export default {
 
 .buttonAdjuster
   margin-right: 40px
+
+.resultAdjuster
+  width: 100%
+  margin-top: 50px
 </style>
