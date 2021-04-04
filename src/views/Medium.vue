@@ -1,32 +1,30 @@
 <template>
   <v-container class="fullDisplay" fluid>
-    <div class="my-3">
-      <h4>Select the appropriate option</h4>
-    </div>
     <div>
       <h5>{{ textShow }}</h5>
     </div>
     <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{ number }}</v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{
+        character
+      }}</v-btn>
+    </div>
+    <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled>
+        <v-icon>{{ pattern }}</v-icon>
+      </v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>
+        <v-icon></v-icon>
+      </v-btn>
+    </div>
+    <div>
       <v-btn
         class="buttonAdjuster"
-        color="grey"
-        @click.prevent="optionClicked(number)"
+        color="primary"
+        @click.prevent="optionClicked"
         :disabled="selected"
-        >{{ number }}</v-btn
+        >Yes</v-btn
       >
-      <v-btn
-        class="buttonAdjuster"
-        color="grey"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-        >{{ character }}</v-btn
-      >
-      <v-btn
-        class=""
-        :color="color"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-      ></v-btn>
     </div>
   </v-container>
 </template>
@@ -41,51 +39,12 @@ export default {
       sensor: "",
       count: 0,
       countEnabled: true,
-      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-      characters: [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-      ],
-      colors: [
-        "brown",
-        "pink",
-        "red",
-        "black",
-        "purple",
-        "indigo",
-        "blue",
-        "cyan",
-        "teal",
-        "green",
-        "yellow",
-      ],
-      color: "grey",
+      numbers: this.$store.state.numbers,
+      characters: this.$store.state.characters,
+      patterns: this.$store.state.patterns,
       number: undefined,
       character: undefined,
+      pattern: undefined,
       selected: false,
       correctAnswer: undefined,
       trialCount: 0,
@@ -93,6 +52,7 @@ export default {
       textShow: "",
       holder: [],
       baseline: true,
+      mediumPattern: this.$store.state.mediumPattern,
     };
   },
   beforeCreate() {
@@ -102,15 +62,10 @@ export default {
       }, ${Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100}, ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
       }`;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const baseline = this.baseline;
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
-        correct: undefined,
-        selected: undefined,
-        baseline: baseline,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
+        baseline: this.baseline,
       });
     });
   },
@@ -125,7 +80,7 @@ export default {
           this.selected = true;
           this.number = undefined;
           this.character = undefined;
-          this.color = "grey";
+          this.pattern = undefined;
           this.baseline = true;
           this.textShow = `Baseline`;
         } else {
@@ -137,15 +92,10 @@ export default {
           this.character = this.characters[
             Math.floor(Math.random() * this.characters.length)
           ];
-          this.color = this.colors[
-            Math.floor(Math.random() * this.colors.length)
+          this.pattern = this.patterns[
+            Math.floor(Math.random() * this.patterns.length)
           ];
-          const tempArray = [this.number, this.character, this.color];
-          this.correctAnswer =
-            tempArray[Math.floor(Math.random() * tempArray.length)];
-          if (this.colors.indexOf(this.correctAnswer) > -1)
-            this.textShow = `Please select: ${this.correctAnswer} colored box`;
-          else this.textShow = `Please select: ${this.correctAnswer}`;
+          this.textShow = "Is this the correct pattern?";
         }
         if (this.trialCount > 18) {
           this.isStopped = false;
@@ -159,21 +109,33 @@ export default {
         console.log("isSopped: ", this.isStopped);
       }
     },
-    optionClicked(e) {
+    optionClicked() {
       this.selected = true;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const correct = this.correctAnswer == e;
-      const selected = e;
-      const baseline = this.baseline;
+      const correct =
+        this.mediumPattern[0] == this.number &&
+        this.mediumPattern[1] == this.character &&
+        this.mediumPattern[2] == this.pattern;
+      if (correct) {
+        this.$toast.open({
+          message: "Correct Answer!",
+          type: "success",
+          position: "top",
+          duration: 1000,
+        });
+      } else {
+        this.$toast.open({
+          message: "Incorrect Answer!",
+          type: "error",
+          position: "top",
+          duration: 1000,
+        });
+      }
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
         correct: correct,
-        selected: selected,
-        baseline: baseline,
+        baseline: this.baseline,
       });
-      console.log(this.correctAnswer == e);
     },
   },
   beforeDestroy() {
@@ -193,5 +155,5 @@ export default {
   flex-direction: column
 
 .buttonAdjuster
-  margin-right: 15px
+  margin: 25px
 </style>

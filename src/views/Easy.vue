@@ -1,25 +1,25 @@
 <template>
   <v-container class="fullDisplay" fluid>
-    <div class="my-3">
-      <h4>Select the appropriate option</h4>
-    </div>
     <div>
       <h5>{{ textShow }}</h5>
     </div>
     <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{ number }}</v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{
+        character
+      }}</v-btn>
+    </div>
+    <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled></v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled></v-btn>
+    </div>
+    <div>
       <v-btn
         class="buttonAdjuster"
-        color="grey"
-        @click.prevent="optionClicked(number)"
+        color="primary"
+        @click.prevent="optionClicked"
         :disabled="selected"
-        >{{ number }}</v-btn
-      >
-      <v-btn
-        class=""
-        color="grey"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-        >{{ character }}</v-btn
+        >Yes</v-btn
       >
     </div>
   </v-container>
@@ -35,35 +35,8 @@ export default {
       sensor: "",
       count: 0,
       countEnabled: true,
-      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-      characters: [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-      ],
+      numbers: this.$store.state.numbers,
+      characters: this.$store.state.characters,
       number: undefined,
       character: undefined,
       selected: false,
@@ -73,6 +46,7 @@ export default {
       textShow: "",
       holder: [],
       baseline: true,
+      easyPattern: this.$store.state.easyPattern,
     };
   },
   beforeCreate() {
@@ -82,15 +56,10 @@ export default {
       }, ${Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100}, ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
       }`;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const baseline = this.baseline;
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
-        correct: undefined,
-        selected: undefined,
-        baseline: baseline,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
+        baseline: this.baseline,
       });
     });
   },
@@ -119,7 +88,7 @@ export default {
           const tempArray = [this.number, this.character];
           this.correctAnswer =
             tempArray[Math.floor(Math.random() * tempArray.length)];
-          this.textShow = `Please select: ${this.correctAnswer}`;
+          this.textShow = `Is this the correct pattern?`;
         }
         if (this.trialCount > 18) {
           this.isStopped = false;
@@ -129,25 +98,34 @@ export default {
           });
         }
         this.trialCount++;
-        console.log("Count: ", this.trialCount);
-        console.log("isSopped: ", this.isStopped);
       }
     },
-    optionClicked(e) {
+    optionClicked() {
       this.selected = true;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const correct = this.correctAnswer == e;
-      const selected = e;
-      const baseline = this.baseline;
+      const correct =
+        this.easyPattern[0] == this.number &&
+        this.easyPattern[1] == this.character;
+      if (correct) {
+        this.$toast.open({
+          message: "Correct Answer!",
+          type: "success",
+          position: "top",
+          duration: 1000,
+        });
+      } else {
+        this.$toast.open({
+          message: "Incorrect Answer!",
+          type: "error",
+          position: "top",
+          duration: 1000,
+        });
+      }
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
         correct: correct,
-        selected: selected,
-        baseline: baseline,
+        baseline: this.baseline,
       });
-      console.log(this.correctAnswer == e);
     },
   },
   beforeDestroy() {
@@ -167,5 +145,5 @@ export default {
   flex-direction: column
 
 .buttonAdjuster
-  margin-right: 15px
+  margin: 25px
 </style>

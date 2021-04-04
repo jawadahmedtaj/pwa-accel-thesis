@@ -1,40 +1,30 @@
 <template>
   <v-container class="fullDisplay" fluid>
-    <div class="my-3">
-      <h4>Select the appropriate option</h4>
-    </div>
     <div>
       <h5>{{ textShow }}</h5>
     </div>
     <div>
-      <v-btn
-        class="buttonAdjuster"
-        color="grey"
-        @click.prevent="optionClicked(number)"
-        :disabled="selected"
-        >{{ number }}</v-btn
-      >
-      <v-btn
-        class="buttonAdjuster"
-        color="grey"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-        >{{ character }}</v-btn
-      >
-      <v-btn
-        class="buttonAdjuster"
-        :color="color"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-      ></v-btn>
-      <v-btn
-        class=""
-        color="grey"
-        @click.prevent="optionClicked(character)"
-        :disabled="selected"
-      >
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{ number }}</v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{
+        character
+      }}</v-btn>
+    </div>
+    <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled>
+        <v-icon>{{ pattern }}</v-icon>
+      </v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>
         <v-icon>{{ arrow }}</v-icon>
       </v-btn>
+    </div>
+    <div>
+      <v-btn
+        class="buttonAdjuster"
+        color="primary"
+        @click.prevent="optionClicked"
+        :disabled="selected"
+        >Yes</v-btn
+      >
     </div>
   </v-container>
 </template>
@@ -49,58 +39,14 @@ export default {
       sensor: "",
       count: 0,
       countEnabled: true,
-      numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
-      characters: [
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z",
-      ],
-      colors: [
-        "brown",
-        "pink",
-        "red",
-        "black",
-        "purple",
-        "indigo",
-        "blue",
-        "cyan",
-        "teal",
-        "green",
-        "yellow",
-      ],
-      color: "grey",
-      arrows: [
-        "mdi-arrow-down-bold",
-        "mdi-arrow-left-bold",
-        "mdi-arrow-right-bold",
-        "mdi-arrow-up-bold",
-      ],
-      arrow: undefined,
+      numbers: this.$store.state.numbers,
+      characters: this.$store.state.characters,
+      patterns: this.$store.state.patterns,
+      arrows: this.$store.state.arrows,
       number: undefined,
       character: undefined,
+      pattern: undefined,
+      arrow: undefined,
       selected: false,
       correctAnswer: undefined,
       trialCount: 0,
@@ -108,6 +54,7 @@ export default {
       textShow: "",
       holder: [],
       baseline: true,
+      hardPattern: this.$store.state.hardPattern,
     };
   },
   beforeCreate() {
@@ -117,15 +64,10 @@ export default {
       }, ${Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100}, ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
       }`;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const baseline = this.baseline;
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
-        correct: undefined,
-        selected: undefined,
-        baseline: baseline,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
+        baseline: this.baseline,
       });
     });
   },
@@ -140,7 +82,7 @@ export default {
           this.selected = true;
           this.number = undefined;
           this.character = undefined;
-          this.color = "grey";
+          this.pattern = undefined;
           this.arrow = undefined;
           this.baseline = true;
           this.textShow = `Baseline`;
@@ -153,25 +95,13 @@ export default {
           this.character = this.characters[
             Math.floor(Math.random() * this.characters.length)
           ];
-          this.color = this.colors[
-            Math.floor(Math.random() * this.colors.length)
+          this.pattern = this.patterns[
+            Math.floor(Math.random() * this.patterns.length)
           ];
           this.arrow = this.arrows[
             Math.floor(Math.random() * this.arrows.length)
           ];
-          const tempArray = [
-            this.number,
-            this.character,
-            this.color,
-            this.arrow,
-          ];
-          this.correctAnswer =
-            tempArray[Math.floor(Math.random() * tempArray.length)];
-          if (this.colors.indexOf(this.correctAnswer) > -1)
-            this.textShow = `Please select: ${this.correctAnswer} colored box`;
-          else if (this.arrows.indexOf(this.correctAnswer) > -1)
-            this.textShow = `Please select: the arrow box`;
-          else this.textShow = `Please select: ${this.correctAnswer}`;
+          this.textShow = "Is this the correct pattern?";
         }
         if (this.trialCount > 18) {
           this.isStopped = false;
@@ -185,21 +115,34 @@ export default {
         console.log("isSopped: ", this.isStopped);
       }
     },
-    optionClicked(e) {
+    optionClicked() {
       this.selected = true;
-      const sensorTemp = this.sensor;
-      const dateTemp = new Date().getTime();
-      const correct = this.correctAnswer == e;
-      const selected = e;
-      const baseline = this.baseline;
+      const correct =
+        this.hardPattern[0] == this.number &&
+        this.hardPattern[1] == this.character &&
+        this.hardPattern[2] == this.pattern &&
+        this.hardPattern[3] == this.arrow;
+      if (correct) {
+        this.$toast.open({
+          message: "Correct Answer!",
+          type: "success",
+          position: "top",
+          duration: 1000,
+        });
+      } else {
+        this.$toast.open({
+          message: "Incorrect Answer!",
+          type: "error",
+          position: "top",
+          duration: 1000,
+        });
+      }
       this.holder.push({
-        sensorValue: sensorTemp,
-        time: dateTemp,
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
         correct: correct,
-        selected: selected,
-        baseline: baseline,
+        baseline: this.baseline,
       });
-      console.log(this.correctAnswer == e);
     },
   },
   beforeDestroy() {
@@ -219,5 +162,5 @@ export default {
   flex-direction: column
 
 .buttonAdjuster
-  margin-right: 15px
+  margin: 25px
 </style>

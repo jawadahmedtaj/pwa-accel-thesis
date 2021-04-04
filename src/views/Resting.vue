@@ -1,7 +1,21 @@
 <template>
   <v-container class="fullDisplay" fluid>
     <div>
-      <h3>Resting</h3>
+      <h5>{{ textShow }}</h5>
+    </div>
+    <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{ number }}</v-btn>
+      <v-btn class="buttonAdjuster" color="grey" disabled>{{
+        character
+      }}</v-btn>
+    </div>
+    <div>
+      <v-btn class="buttonAdjuster" color="grey" disabled
+        ><v-icon>{{ pattern }}</v-icon></v-btn
+      >
+      <v-btn class="buttonAdjuster" color="grey" disabled>
+        <v-icon>{{ arrow }}</v-icon>
+      </v-btn>
     </div>
   </v-container>
 </template>
@@ -14,17 +28,82 @@ export default {
   props: ["difficulty"],
   data() {
     return {
-      done: this.$store.state.easyDone,
       count: this.$store.state.counter,
+      numbers: this.$store.state.numbers,
+      characters: this.$store.state.characters,
+      patterns: this.$store.state.patterns,
+      arrows: this.$store.state.arrows,
+      number: undefined,
+      character: undefined,
+      pattern: undefined,
+      arrow: undefined,
+      easyPattern: [],
+      mediumPattern: [],
+      hardPattern: [],
+      textShow: "",
     };
   },
   components: {},
   beforeCreate() {},
   mounted() {
-    console.log(this.difficulty);
+    if (this.count < 3) {
+      this.textShow = "Please remember this pattern";
+      if (this.difficulty == "Easy") {
+        this.number = this.numbers[
+          Math.floor(Math.random() * this.numbers.length)
+        ];
+        this.character = this.characters[
+          Math.floor(Math.random() * this.characters.length)
+        ];
+
+        this.easyPattern.push(this.number);
+        this.easyPattern.push(this.character);
+
+        this.$store.commit("easyPatternSetter", this.easyPattern);
+      } else if (this.difficulty == "Medium") {
+        this.number = this.numbers[
+          Math.floor(Math.random() * this.numbers.length)
+        ];
+        this.character = this.characters[
+          Math.floor(Math.random() * this.characters.length)
+        ];
+        this.pattern = this.patterns[
+          Math.floor(Math.random() * this.patterns.length)
+        ];
+
+        this.mediumPattern.push(this.number);
+        this.mediumPattern.push(this.character);
+        this.mediumPattern.push(this.pattern);
+
+        this.$store.commit("mediumPatternSetter", this.mediumPattern);
+      } else {
+        this.number = this.numbers[
+          Math.floor(Math.random() * this.numbers.length)
+        ];
+        this.character = this.characters[
+          Math.floor(Math.random() * this.characters.length)
+        ];
+        this.pattern = this.patterns[
+          Math.floor(Math.random() * this.patterns.length)
+        ];
+        this.arrow = this.arrows[
+          Math.floor(Math.random() * this.arrows.length)
+        ];
+
+        this.hardPattern.push(this.number);
+        this.hardPattern.push(this.character);
+        this.hardPattern.push(this.pattern);
+        this.hardPattern.push(this.arrow);
+
+        this.$store.commit("hardPatternSetter", this.hardPattern);
+      }
+    } else {
+      this.textShow = "Resting";
+    }
+
     setTimeout(() => {
-      this.count++;
       if (this.count < 3) {
+        this.count++;
         this.$store.commit("countSetter", this.count);
         if (this.difficulty === "Easy") this.$router.push("/Easy");
         else if (this.difficulty === "Medium") this.$router.push("/Medium");
@@ -48,13 +127,13 @@ export default {
 
 <style lang="sass" scoped>
 .fullDisplay
-    width: 100%
-    height: 100vh
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: column
+  width: 100%
+  height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
 
 .buttonAdjuster
-    margin-right: 15px
+  margin: 25px
 </style>

@@ -4,21 +4,45 @@
       <v-btn
         class="buttonAdjuster"
         color="primary"
-        to="/Easy"
         :disabled="easyDone"
+        @click="
+          $router.push({
+            name: 'Resting',
+            params: { difficulty: 'Easy' },
+          })
+        "
         >Easy</v-btn
       >
       <v-btn
         class="buttonAdjuster"
         color="primary"
-        to="/Medium"
+        @click="
+          $router.push({
+            name: 'Resting',
+            params: { difficulty: 'Medium' },
+          })
+        "
         :disabled="mediumDone"
         >Medium</v-btn
       >
-      <v-btn color="primary" to="/Hard" :disabled="hardDone">Hard</v-btn>
+      <v-btn
+        color="primary"
+        @click="
+          $router.push({
+            name: 'Resting',
+            params: { difficulty: 'Hard' },
+          })
+        "
+        :disabled="hardDone"
+        >Hard</v-btn
+      >
     </div>
     <div>
-      <v-btn class="resultAdjuster" color="warning" to="/ShowResults"
+      <v-btn
+        class="resultAdjuster"
+        color="warning"
+        @click.prevent="saveFile"
+        :disabled="buttonDisabler"
         >Save/Show results</v-btn
       >
     </div>
@@ -35,9 +59,32 @@ export default {
       easyDone: this.$store.state.easyDone,
       mediumDone: this.$store.state.mediumDone,
       hardDone: this.$store.state.hardDone,
+      easy: this.$store.state.easy,
+      medium: this.$store.state.medium,
+      hard: this.$store.state.hard,
+      buttonDisabler: false,
     };
   },
   components: {},
+  methods: {
+    async saveFile() {
+      try {
+        this.buttonDisabler = true;
+        const jsonFile = new File(["hello world"], "hello.txt", {
+          type: "text/plain",
+        });
+        const handle = await window.showSaveFilePicker();
+        const writable = await handle.createWritable();
+
+        await writable.write(jsonFile);
+        await writable.close();
+      } catch (err) {
+        console.log(err);
+      } finally {
+        this.buttonDisabler = false;
+      }
+    },
+  },
   beforeCreate() {},
 };
 </script>
