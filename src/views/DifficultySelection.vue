@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { saveAs } from "file-saver";
 // @ is an alias to /src
 
 export default {
@@ -70,21 +71,34 @@ export default {
   components: {},
   methods: {
     async saveFile() {
+      // try {
+      //   this.buttonDisabler = true;
+      //   this.textShow = "Seems to be working";
+      //   const jsonFile = new File(["hello world"], "hello.txt", {
+      //     type: "text/plain",
+      //   });
+
+      //   const [handle] = await window.showSaveFilePicker();
+      //   const writable = await handle.createWritable();
+
+      //   await writable.write(jsonFile);
+      //   await writable.close();
+      // } catch (err) {
+      //   this.textShow = err;
+      //   console.log(err);
+      // } finally {
+      //   this.buttonDisabler = false;
+      // }
       try {
-        this.buttonDisabler = true;
         this.textShow = "Seems to be working";
-        const jsonFile = new File(["hello world"], "hello.txt", {
-          type: "text/plain",
+        let blob = new Blob(["Hello, world!"], {
+          type: "text/plain;charset=utf-8",
         });
-
-        const [handle] = await window.showSaveFilePicker();
-        const writable = await handle.createWritable();
-
-        await writable.write(jsonFile);
-        await writable.close();
-      } catch (err) {
-        this.textShow = err;
-        console.log(err);
+        await saveAs(blob, "hello world.txt");
+        this.buttonDisabler = true;
+      } catch (error) {
+        this.textShow = error;
+        console.log(error);
       } finally {
         this.buttonDisabler = false;
       }
