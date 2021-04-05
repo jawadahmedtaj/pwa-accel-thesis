@@ -92,14 +92,18 @@ export default {
       // }
       this.buttonDisabler = true;
       try {
-        const holder = JSON.stringify({
-          easy: [...this.easy],
-          medium: [...this.medium],
-          hard: [...this.hard],
-        });
-        let blob = new Blob([holder], {
-          type: "text/plain;charset=utf-8",
-        });
+        let blob = new Blob(
+          [
+            JSON.stringify({
+              easy: [...this.easy],
+              medium: [...this.medium],
+              hard: [...this.hard],
+            }),
+          ],
+          {
+            type: "application/json",
+          }
+        );
         await saveAs(
           blob,
           `${this.participant} - PWA accel - ${new Date().getTime()}.json`
@@ -113,9 +117,9 @@ export default {
     },
   },
   mounted() {
-    if (!(this.easyDone && this.mediumDone && this.hardDone)) {
-      this.buttonDisabler = true;
-    }
+    // if (!(this.easyDone && this.mediumDone && this.hardDone)) {
+    //   this.buttonDisabler = true;
+    // }
   },
 };
 </script>
