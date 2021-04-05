@@ -117,7 +117,7 @@ export default {
     },
   },
   mounted() {
-    if (this.easyDone && this.mediumDone && this.hardDone) {
+    if (!(this.easyDone && this.mediumDone && this.hardDone)) {
       this.buttonDisabler = true;
     }
   },
