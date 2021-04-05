@@ -117,9 +117,9 @@ export default {
     },
   },
   mounted() {
-    // if (!(this.easyDone && this.mediumDone && this.hardDone)) {
-    //   this.buttonDisabler = true;
-    // }
+    if (!(this.easyDone && this.mediumDone && this.hardDone)) {
+      this.buttonDisabler = true;
+    }
   },
 };
 </script>
