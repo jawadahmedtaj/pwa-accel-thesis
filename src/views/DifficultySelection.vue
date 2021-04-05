@@ -1,6 +1,7 @@
 <template>
   <v-container class="fullDisplay" fluid>
     <div id="app">
+      <div>{{ textShow }}</div>
       <v-btn
         class="buttonAdjuster"
         color="primary"
@@ -63,6 +64,7 @@ export default {
       medium: this.$store.state.medium,
       hard: this.$store.state.hard,
       buttonDisabler: false,
+      textShow: "",
     };
   },
   components: {},
@@ -70,15 +72,18 @@ export default {
     async saveFile() {
       try {
         this.buttonDisabler = true;
+        this.textShow = "Seems to be working";
         const jsonFile = new File(["hello world"], "hello.txt", {
           type: "text/plain",
         });
-        const handle = await window.showSaveFilePicker();
+
+        const [handle] = await window.showSaveFilePicker();
         const writable = await handle.createWritable();
 
         await writable.write(jsonFile);
         await writable.close();
       } catch (err) {
+        this.textShow = err;
         console.log(err);
       } finally {
         this.buttonDisabler = false;

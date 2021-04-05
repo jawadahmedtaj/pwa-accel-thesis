@@ -121,7 +121,6 @@ export default {
       }
     }, 30000);
   },
-  methods: {},
 };
 </script>
 

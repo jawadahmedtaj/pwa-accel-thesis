@@ -66,25 +66,25 @@ export default new Vuex.Store({
       state.[difficulty] = true;
     },
     countSetter(state, count) {
-      state.counter = count
+      state.counter = count;
     },
     easySetter(state, data) {
-      state.easy.push(...data)
+      state.easy.push(...data);
     },
     mediumSetter(state, data) {
-      state.medium.push(...data)
+      state.medium.push(...data);
     },
     hardSetter(state, data) {
-      state.hard.push(...data)
+      state.hard.push(...data);
     },
     easyPatternSetter(state, data) {
-      state.easyPattern = data
+      state.easyPattern = data;
     },
     mediumPatternSetter(state, data) {
-      state.mediumPattern = data
+      state.mediumPattern = data;
     },
     hardPatternSetter(state, data) {
-      state.hardPattern = data
+      state.hardPattern = data;
     }
   },
   actions: {},
