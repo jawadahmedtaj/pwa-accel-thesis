@@ -92,18 +92,14 @@ export default {
       // }
       this.buttonDisabler = true;
       try {
-        let blob = new Blob(
-          [
-            {
-              easy: { ...this.easy },
-              medium: { ...this.medium },
-              hard: { ...this.hard },
-            },
-          ],
-          {
-            type: "text/plain;charset=utf-8",
-          }
-        );
+        const holder = JSON.stringify({
+          easy: [...this.easy],
+          medium: [...this.medium],
+          hard: [...this.hard],
+        });
+        let blob = new Blob([holder], {
+          type: "text/plain;charset=utf-8",
+        });
         await saveAs(
           blob,
           `${this.participant} - PWA accel - ${new Date().getTime()}.json`
