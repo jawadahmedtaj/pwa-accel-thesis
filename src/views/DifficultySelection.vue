@@ -44,7 +44,7 @@
         color="warning"
         @click.prevent="saveFile"
         :disabled="buttonDisabler"
-        >Save/Show results</v-btn
+        >Save results</v-btn
       >
     </div>
   </v-container>
@@ -65,6 +65,7 @@ export default {
       medium: this.$store.state.medium,
       hard: this.$store.state.hard,
       buttonDisabler: false,
+      participant: this.$store.state.participant,
       textShow: "",
     };
   },
@@ -89,13 +90,24 @@ export default {
       // } finally {
       //   this.buttonDisabler = false;
       // }
+      this.buttonDisabler = true;
       try {
-        this.textShow = "Seems to be working";
-        let blob = new Blob(["Hello, world!"], {
-          type: "text/plain;charset=utf-8",
-        });
-        await saveAs(blob, "hello world.txt");
-        this.buttonDisabler = true;
+        let blob = new Blob(
+          [
+            {
+              easy: { ...this.easy },
+              medium: { ...this.medium },
+              hard: { ...this.hard },
+            },
+          ],
+          {
+            type: "text/plain;charset=utf-8",
+          }
+        );
+        await saveAs(
+          blob,
+          `${this.participant} - PWA accel - ${new Date().getTime()}.json`
+        );
       } catch (error) {
         this.textShow = error;
         console.log(error);
@@ -104,7 +116,11 @@ export default {
       }
     },
   },
-  beforeCreate() {},
+  mounted() {
+    if (this.easyDone && this.mediumDone && this.hardDone) {
+      this.buttonDisabler = true;
+    }
+  },
 };
 </script>
 
