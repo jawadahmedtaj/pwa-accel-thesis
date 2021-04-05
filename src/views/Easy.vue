@@ -4,14 +4,16 @@
       <h5>{{ textShow }}</h5>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" color="grey" disabled>{{ number }}</v-btn>
-      <v-btn class="buttonAdjuster" color="grey" disabled>{{
+      <v-btn class="buttonAdjuster" :color="color" depressed>{{
+        number
+      }}</v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed>{{
         character
       }}</v-btn>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" color="grey" disabled></v-btn>
-      <v-btn class="buttonAdjuster" color="grey" disabled></v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed></v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed></v-btn>
     </div>
     <div>
       <v-btn
@@ -37,6 +39,7 @@ export default {
       countEnabled: true,
       numbers: this.$store.state.numbers,
       characters: this.$store.state.characters,
+      color: "grey lighten-2",
       number: undefined,
       character: undefined,
       selected: false,
@@ -69,6 +72,7 @@ export default {
   },
   methods: {
     questionChanger() {
+      this.color = "grey lighten-3";
       if (this.isStopped) {
         if (this.trialCount % 2 === 0) {
           this.selected = true;
@@ -106,19 +110,21 @@ export default {
         this.easyPattern[0] == this.number &&
         this.easyPattern[1] == this.character;
       if (correct) {
-        this.$toast.open({
-          message: "Correct Answer!",
-          type: "success",
-          position: "top",
-          duration: 1000,
-        });
+        this.color = "green lighten-3";
+        // this.$toast.open({
+        //   message: "Correct Answer!",
+        //   type: "success",
+        //   position: "top",
+        //   duration: 1000,
+        // });
       } else {
-        this.$toast.open({
-          message: "Incorrect Answer!",
-          type: "error",
-          position: "top",
-          duration: 1000,
-        });
+        this.color = "red lighten-3";
+        // this.$toast.open({
+        //   message: "Incorrect Answer!",
+        //   type: "error",
+        //   position: "top",
+        //   duration: 1000,
+        // });
       }
       this.holder.push({
         sensorValue: this.sensor,
