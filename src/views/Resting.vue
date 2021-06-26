@@ -10,8 +10,7 @@
       <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>{{
         character
       }}</v-btn>
-    </div>
-    <div>
+
       <v-btn class="buttonAdjuster" color="grey lighten-2" depressed
         ><v-icon>{{ pattern }}</v-icon></v-btn
       >
@@ -51,27 +50,22 @@ export default {
     if (this.count < 3) {
       this.textShow = "Please remember this pattern";
       if (this.difficulty == "Easy") {
-        this.number = this.numbers[
-          Math.floor(Math.random() * this.numbers.length)
-        ];
-        this.character = this.characters[
-          Math.floor(Math.random() * this.characters.length)
-        ];
+        this.number =
+          this.numbers[Math.floor(Math.random() * this.numbers.length)];
+        this.character =
+          this.characters[Math.floor(Math.random() * this.characters.length)];
 
         this.easyPattern.push(this.number);
         this.easyPattern.push(this.character);
 
         this.$store.commit("easyPatternSetter", this.easyPattern);
       } else if (this.difficulty == "Medium") {
-        this.number = this.numbers[
-          Math.floor(Math.random() * this.numbers.length)
-        ];
-        this.character = this.characters[
-          Math.floor(Math.random() * this.characters.length)
-        ];
-        this.pattern = this.patterns[
-          Math.floor(Math.random() * this.patterns.length)
-        ];
+        this.number =
+          this.numbers[Math.floor(Math.random() * this.numbers.length)];
+        this.character =
+          this.characters[Math.floor(Math.random() * this.characters.length)];
+        this.pattern =
+          this.patterns[Math.floor(Math.random() * this.patterns.length)];
 
         this.mediumPattern.push(this.number);
         this.mediumPattern.push(this.character);
@@ -79,18 +73,14 @@ export default {
 
         this.$store.commit("mediumPatternSetter", this.mediumPattern);
       } else {
-        this.number = this.numbers[
-          Math.floor(Math.random() * this.numbers.length)
-        ];
-        this.character = this.characters[
-          Math.floor(Math.random() * this.characters.length)
-        ];
-        this.pattern = this.patterns[
-          Math.floor(Math.random() * this.patterns.length)
-        ];
-        this.arrow = this.arrows[
-          Math.floor(Math.random() * this.arrows.length)
-        ];
+        this.number =
+          this.numbers[Math.floor(Math.random() * this.numbers.length)];
+        this.character =
+          this.characters[Math.floor(Math.random() * this.characters.length)];
+        this.pattern =
+          this.patterns[Math.floor(Math.random() * this.patterns.length)];
+        this.arrow =
+          this.arrows[Math.floor(Math.random() * this.arrows.length)];
 
         this.hardPattern.push(this.number);
         this.hardPattern.push(this.character);

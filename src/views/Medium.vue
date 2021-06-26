@@ -4,27 +4,38 @@
       <h5>{{ textShow }}</h5>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>{{ number }}</v-btn>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>{{
-        character
-      }}</v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        {{ displayPattern[0] }}
+      </v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        {{ displayPattern[1] }}
+      </v-btn>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>
-        <v-icon>{{ pattern }}</v-icon>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        {{ displayPattern[2] }}
       </v-btn>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>
-        <v-icon></v-icon>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        {{ displayPattern[3] }}
       </v-btn>
     </div>
     <div>
       <v-btn
-        class="buttonAdjuster"
+        class="pa-2 ma-12"
         color="primary"
-        @click.prevent="optionClicked"
+        @click.prevent="optionClicked(true)"
         :disabled="selected"
-        >Yes</v-btn
       >
+        Yes
+      </v-btn>
+      <v-btn
+        class="pa-2 ma-12"
+        color="error"
+        @click.prevent="optionClicked(false)"
+        :disabled="selected"
+      >
+        No
+      </v-btn>
     </div>
   </v-container>
 </template>
@@ -45,6 +56,7 @@ export default {
       number: undefined,
       character: undefined,
       pattern: undefined,
+      color: "grey lighten-2",
       selected: false,
       correctAnswer: undefined,
       trialCount: 0,
@@ -53,6 +65,7 @@ export default {
       holder: [],
       baseline: true,
       mediumPattern: this.$store.state.mediumPattern,
+      displayPattern: [],
     };
   },
   beforeCreate() {
@@ -66,6 +79,8 @@ export default {
         sensorValue: this.sensor,
         time: new Date().getTime(),
         baseline: this.baseline,
+        answered: false,
+        pattern: this.mediumPattern,
       });
     });
   },
@@ -81,20 +96,23 @@ export default {
           this.number = undefined;
           this.character = undefined;
           this.pattern = undefined;
+          this.displayPattern = new Array(4).fill("");
           this.baseline = true;
           this.textShow = `Baseline`;
         } else {
           this.baseline = false;
           this.selected = false;
-          this.number = this.numbers[
-            Math.floor(Math.random() * this.numbers.length)
-          ];
-          this.character = this.characters[
-            Math.floor(Math.random() * this.characters.length)
-          ];
-          this.pattern = this.patterns[
-            Math.floor(Math.random() * this.patterns.length)
-          ];
+          this.number =
+            this.numbers[Math.floor(Math.random() * this.numbers.length)];
+          this.character =
+            this.characters[Math.floor(Math.random() * this.characters.length)];
+          this.pattern =
+            this.patterns[Math.floor(Math.random() * this.patterns.length)];
+          this.displayPattern = new Array(4).fill("");
+          this.displayPattern[0] = this.number;
+          this.displayPattern[1] = this.character;
+          this.displayPattern[2] = this.pattern;
+          this.shuffle(this.displayPattern);
           this.textShow = "Is this the correct pattern?";
         }
         if (this.trialCount > 18) {
@@ -105,37 +123,52 @@ export default {
           });
         }
         this.trialCount++;
-        console.log("Count: ", this.trialCount);
-        console.log("isSopped: ", this.isStopped);
+        // console.log("Count: ", this.trialCount);
+        // console.log("isSopped: ", this.isStopped);
       }
     },
-    optionClicked() {
+    optionClicked(type) {
       this.selected = true;
       const correct =
         this.mediumPattern[0] == this.number &&
         this.mediumPattern[1] == this.character &&
         this.mediumPattern[2] == this.pattern;
       if (correct) {
-        this.$toast.open({
-          message: "Correct Answer!",
-          type: "success",
-          position: "top",
-          duration: 1000,
-        });
+        if (type) this.color = "green lighten-3";
+        else this.color = "red lighten-3";
       } else {
-        this.$toast.open({
-          message: "Incorrect Answer!",
-          type: "error",
-          position: "top",
-          duration: 1000,
-        });
+        if (type) this.color = "red lighten-3";
+        else this.color = "green lighten-3";
       }
       this.holder.push({
         sensorValue: this.sensor,
         time: new Date().getTime(),
         correct: correct,
         baseline: this.baseline,
+        answered: true,
+        answer: type ? "Yes" : "No",
+        pattern: this.mediumPattern,
       });
+    },
+    //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
+    shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex],
+        ];
+      }
+
+      return array;
     },
   },
   beforeDestroy() {
