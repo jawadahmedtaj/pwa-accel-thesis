@@ -5,19 +5,21 @@
     </div>
     <div>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        {{ displayPattern[0] }}
+        <v-icon>{{ displayPattern[0] }}</v-icon>
       </v-btn>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        {{ displayPattern[1] }}
+        <v-icon> {{ displayPattern[1] }}</v-icon>
       </v-btn>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" :color="color" depressed>{{
-        displayPattern[2]
-      }}</v-btn>
-      <v-btn class="buttonAdjuster" :color="color" depressed>{{
-        displayPattern[3]
-      }}</v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        <v-icon> {{ displayPattern[2] }}</v-icon>
+      </v-btn>
+      <v-btn class="buttonAdjuster" :color="color" depressed>
+        <v-icon>
+          {{ displayPattern[3] }}
+        </v-icon>
+      </v-btn>
     </div>
     <div>
       <v-btn
