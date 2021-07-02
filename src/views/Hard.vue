@@ -5,21 +5,20 @@
     </div>
     <div>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        <v-icon>{{ displayPattern[0] }}</v-icon>
+        <v-icon>{{ displayPattern[0] }} </v-icon>
       </v-btn>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        <v-icon> {{ displayPattern[1] }}</v-icon>
+        <v-icon> {{ displayPattern[1] }} </v-icon>
       </v-btn>
     </div>
     <div>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        <v-icon> {{ displayPattern[2] }}</v-icon>
+        <v-icon> {{ displayPattern[2] }} </v-icon>
       </v-btn>
       <v-btn class="buttonAdjuster" :color="color" depressed>
-        <v-icon>
-          {{ displayPattern[3] }}
-        </v-icon>
+        <v-icon> {{ displayPattern[3] }} </v-icon>
       </v-btn>
+      
     </div>
     <div>
       <v-btn
@@ -70,6 +69,7 @@ export default {
       baseline: true,
       hardPattern: this.$store.state.hardPattern,
       displayPattern: [],
+      patternRandomizer: [true, true, true, false],
     };
   },
   beforeCreate() {

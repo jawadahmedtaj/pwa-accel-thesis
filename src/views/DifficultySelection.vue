@@ -2,6 +2,9 @@
   <v-container class="fullDisplay" fluid>
     <div id="app">
       <div>{{ textShow }}</div>
+      <!-- <v-btn class="buttonAdjuster" :color="color" depressed>
+        <v-icon> mdi-circle-slice-6 mdi-rotate-180 mdi-flip-h</v-icon>
+      </v-btn> -->
       <v-btn
         class="buttonAdjuster"
         color="primary"
