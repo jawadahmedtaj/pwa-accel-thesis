@@ -4,12 +4,12 @@
       <h5>{{ textShow }}</h5>
     </div>
     <div>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>{{
-        number
-      }}</v-btn>
-      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>{{
-        character
-      }}</v-btn>
+      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>
+        <v-icon>{{ number }}</v-icon>
+      </v-btn>
+      <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>
+        <v-icon>{{ character }}</v-icon>
+      </v-btn>
 
       <v-btn class="buttonAdjuster" color="grey lighten-2" depressed
         ><v-icon>{{ pattern }}</v-icon></v-btn
