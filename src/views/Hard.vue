@@ -18,7 +18,6 @@
       <v-btn class="buttonAdjuster" :color="color" depressed>
         <v-icon> {{ displayPattern[3] }} </v-icon>
       </v-btn>
-      
     </div>
     <div>
       <v-btn
@@ -93,6 +92,7 @@ export default {
   },
   methods: {
     questionChanger() {
+      this.color = "grey lighten-2";
       if (this.isStopped) {
         if (this.trialCount % 2 === 0) {
           this.selected = true;
@@ -115,10 +115,19 @@ export default {
           this.arrow =
             this.arrows[Math.floor(Math.random() * this.arrows.length)];
           this.displayPattern = new Array(4).fill("");
-          this.displayPattern[0] = this.number;
-          this.displayPattern[1] = this.character;
-          this.displayPattern[2] = this.pattern;
-          this.displayPattern[3] = this.arrow;
+          this.shuffle(this.patternRandomizer);
+          this.patternRandomizer[0]
+            ? (this.displayPattern[0] = this.hardPattern[0])
+            : (this.displayPattern[0] = this.number);
+          this.patternRandomizer[1]
+            ? (this.displayPattern[1] = this.hardPattern[1])
+            : (this.displayPattern[1] = this.character);
+          this.patternRandomizer[2]
+            ? (this.displayPattern[2] = this.hardPattern[2])
+            : (this.displayPattern[2] = this.pattern);
+          this.patternRandomizer[3]
+            ? (this.displayPattern[3] = this.hardPattern[3])
+            : (this.displayPattern[3] = this.arrow);
           this.shuffle(this.displayPattern);
           this.textShow = "Is this the correct pattern?";
         }
