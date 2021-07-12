@@ -43,8 +43,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: "Medium",
   data() {
@@ -68,6 +66,7 @@ export default {
       baseline: true,
       mediumPattern: this.$store.state.mediumPattern,
       displayPattern: [],
+      patternRandomizer: [true, true, false],
     };
   },
   beforeCreate() {
@@ -111,9 +110,16 @@ export default {
           this.pattern =
             this.patterns[Math.floor(Math.random() * this.patterns.length)];
           this.displayPattern = new Array(4).fill("");
-          this.displayPattern[0] = this.number;
-          this.displayPattern[1] = this.character;
-          this.displayPattern[2] = this.pattern;
+          this.shuffle(this.patternRandomizer);
+          this.patternRandomizer[0]
+            ? (this.displayPattern[0] = this.hardPattern[0])
+            : (this.displayPattern[0] = this.number);
+          this.patternRandomizer[1]
+            ? (this.displayPattern[1] = this.hardPattern[1])
+            : (this.displayPattern[1] = this.character);
+          this.patternRandomizer[2]
+            ? (this.displayPattern[2] = this.hardPattern[2])
+            : (this.displayPattern[2] = this.pattern);
           this.shuffle(this.displayPattern);
           this.textShow = "Is this the correct pattern?";
         }

@@ -41,8 +41,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
-
 export default {
   name: "Easy",
   data() {
@@ -64,6 +62,7 @@ export default {
       baseline: true,
       easyPattern: this.$store.state.easyPattern,
       displayPattern: [],
+      patternRandomizer: [true, false],
     };
   },
   beforeCreate() {
@@ -105,12 +104,14 @@ export default {
           this.character =
             this.characters[Math.floor(Math.random() * this.characters.length)];
           this.displayPattern = new Array(4).fill("");
-          this.displayPattern[0] = this.number;
-          this.displayPattern[1] = this.character;
+          this.shuffle(this.patternRandomizer);
+          this.patternRandomizer[0]
+            ? (this.displayPattern[0] = this.hardPattern[0])
+            : (this.displayPattern[0] = this.number);
+          this.patternRandomizer[1]
+            ? (this.displayPattern[1] = this.hardPattern[1])
+            : (this.displayPattern[1] = this.character);
           this.shuffle(this.displayPattern);
-          // const tempArray = [this.number, this.character];
-          // this.correctAnswer =
-          //   tempArray[Math.floor(Math.random() * tempArray.length)];
           this.textShow = `Is this the correct pattern?`;
         }
         if (this.trialCount > 18) {
