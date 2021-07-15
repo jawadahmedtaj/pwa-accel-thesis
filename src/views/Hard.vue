@@ -58,7 +58,6 @@ export default {
       arrow: undefined,
       color: "grey lighten-2",
       selected: false,
-      correctAnswer: undefined,
       trialCount: 0,
       isStopped: true,
       textShow: "",

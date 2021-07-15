@@ -58,7 +58,6 @@ export default {
       pattern: undefined,
       color: "grey lighten-2",
       selected: false,
-      correctAnswer: undefined,
       trialCount: 0,
       isStopped: true,
       textShow: "",
@@ -112,13 +111,13 @@ export default {
           this.displayPattern = new Array(4).fill("");
           this.shuffle(this.patternRandomizer);
           this.patternRandomizer[0]
-            ? (this.displayPattern[0] = this.hardPattern[0])
+            ? (this.displayPattern[0] = this.mediumPattern[0])
             : (this.displayPattern[0] = this.number);
           this.patternRandomizer[1]
-            ? (this.displayPattern[1] = this.hardPattern[1])
+            ? (this.displayPattern[1] = this.mediumPattern[1])
             : (this.displayPattern[1] = this.character);
           this.patternRandomizer[2]
-            ? (this.displayPattern[2] = this.hardPattern[2])
+            ? (this.displayPattern[2] = this.mediumPattern[2])
             : (this.displayPattern[2] = this.pattern);
           this.shuffle(this.displayPattern);
           this.textShow = "Is this the correct pattern?";
