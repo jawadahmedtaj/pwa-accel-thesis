@@ -126,5 +126,5 @@ export default {
   flex-direction: column
 
 .buttonAdjuster
-  margin: 25px
+  margin: 15px
 </style>
