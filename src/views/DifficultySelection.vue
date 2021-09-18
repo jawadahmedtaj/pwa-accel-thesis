@@ -42,17 +42,19 @@
       >
     </div>
     <div>
-      <v-btn class="resultAdjuster" color="warning" @click.prevent="saveFile"
+      <v-btn
+        class="resultAdjuster"
+        color="warning"
+        @click.prevent="saveFile"
+        :disabled="buttonDisabler"
         >Save results</v-btn
       >
-      <!-- :disabled="buttonDisabler" -->
     </div>
   </v-container>
 </template>
 
 <script>
 import { saveAs } from "file-saver";
-// @ is an alias to /src
 
 export default {
   name: "DifficultySelection",
@@ -72,24 +74,6 @@ export default {
   components: {},
   methods: {
     async saveFile() {
-      // try {
-      //   this.buttonDisabler = true;
-      //   this.textShow = "Seems to be working";
-      //   const jsonFile = new File(["hello world"], "hello.txt", {
-      //     type: "text/plain",
-      //   });
-
-      //   const [handle] = await window.showSaveFilePicker();
-      //   const writable = await handle.createWritable();
-
-      //   await writable.write(jsonFile);
-      //   await writable.close();
-      // } catch (err) {
-      //   this.textShow = err;
-      //   console.log(err);
-      // } finally {
-      //   this.buttonDisabler = false;
-      // }
       this.buttonDisabler = true;
       try {
         let blob = new Blob(

@@ -1,5 +1,8 @@
 <template>
   <v-container class="fullDisplay" fluid>
+    <div class="canvasRemover">
+      <video ref="video" autoplay muted playsinline width="1px" height="1px" />
+    </div>
     <div>
       <h5>{{ textShow }}</h5>
     </div>
@@ -43,6 +46,8 @@
 </template>
 
 <script>
+import loadImage from "blueimp-load-image";
+
 export default {
   name: "Medium",
   data() {
@@ -66,8 +71,9 @@ export default {
       mediumPattern: this.$store.state.mediumPattern,
       displayPattern: [],
       patternRandomizer: [true, true, false],
-      stream: null,
-      photo: null,
+      stream: undefined,
+      photo: undefined,
+      ready: false,
     };
   },
   beforeCreate() {
@@ -83,14 +89,53 @@ export default {
         baseline: this.baseline,
         answered: false,
         pattern: this.mediumPattern,
+        imageData: this.streamWatcher(),
       });
     });
   },
   mounted() {
+    this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
   },
   methods: {
+    async startCamera() {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+        },
+      });
+
+      this.$refs.video.srcObject = this.stream;
+
+      this.$refs.video.onloadedmetadata = () => {
+        this.ready = true;
+      };
+
+      this.$refs.video.onended = () => {
+        this.ready = false;
+        this.stream = null;
+      };
+    },
+    streamWatcher() {
+      let video = this.$refs.video;
+      let videoCanvas = document.createElement("canvas");
+      videoCanvas.height = video.videoHeight;
+      videoCanvas.width = video.videoWidth;
+      let videoContext = videoCanvas.getContext("2d");
+      videoContext.drawImage(video, 0, 0);
+      this.photo = loadImage.scale(videoCanvas, {
+        maxHeight: 200,
+        maxWidth: 200,
+        imageSmoothingEnabled: false,
+        meta: false,
+        cover: true,
+        crop: true,
+        canvas: true,
+      });
+      return this.photo.toDataURL("image/jpeg") || "";
+    },
     questionChanger() {
       if (this.isStopped) {
         if (this.trialCount % 2 === 0) {
@@ -132,8 +177,6 @@ export default {
           });
         }
         this.trialCount++;
-        // console.log("Count: ", this.trialCount);
-        // console.log("isSopped: ", this.isStopped);
       }
     },
     optionClicked(type) {
@@ -157,6 +200,7 @@ export default {
         answered: true,
         answer: type ? "Yes" : "No",
         pattern: this.mediumPattern,
+        imageData: this.streamWatcher(),
       });
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
@@ -198,4 +242,8 @@ export default {
 
 .buttonAdjuster
   margin: 25px
+
+.canvasRemover
+  height: 1px
+  width: 1px
 </style>

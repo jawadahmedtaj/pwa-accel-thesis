@@ -87,23 +87,12 @@ export default {
         pattern: this.easyPattern,
         imageData: this.streamWatcher(),
       });
-      // this.$store.commit("easySetter", [
-      //   {
-      //     sensorValue: this.sensor,
-      //     time: new Date().getTime(),
-      //     baseline: this.baseline,
-      //     answered: false,
-      //     pattern: this.easyPattern,
-      //     imageData: this.streamWatcher(),
-      //   },
-      // ]);
     });
   },
   mounted() {
     this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
-    // setInterval(this.streamWatcher, 10);
   },
   methods: {
     async startCamera() {
@@ -127,22 +116,20 @@ export default {
     },
     streamWatcher() {
       let video = this.$refs.video;
-
       let videoCanvas = document.createElement("canvas");
       videoCanvas.height = video.videoHeight;
       videoCanvas.width = video.videoWidth;
       let videoContext = videoCanvas.getContext("2d");
-
       videoContext.drawImage(video, 0, 0);
-
       this.photo = loadImage.scale(videoCanvas, {
-        maxHeight: 1080,
-        maxWidth: 1080,
+        maxHeight: 200,
+        maxWidth: 200,
+        imageSmoothingEnabled: false,
+        meta: false,
         cover: true,
         crop: true,
         canvas: true,
       });
-      // console.log(this.photo.toDataURL("image/jpeg"));
       return this.photo.toDataURL("image/jpeg") || "";
     },
     questionChanger() {
@@ -205,18 +192,6 @@ export default {
         pattern: this.easyPattern,
         imageData: this.streamWatcher(),
       });
-      // this.$store.commit("easySetter", [
-      //   {
-      //     sensorValue: this.sensor,
-      //     time: new Date().getTime(),
-      //     correct: correct,
-      //     baseline: this.baseline,
-      //     answered: true,
-      //     answer: type ? "Yes" : "No",
-      //     pattern: this.easyPattern,
-      //     imageData: this.streamWatcher(),
-      //   },
-      // ]);
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
     shuffle(array) {
@@ -241,7 +216,6 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.questionChanger);
-    // clearInterval(this.streamWatcher);
     this.$store.commit("easySetter", this.holder);
   },
 };
