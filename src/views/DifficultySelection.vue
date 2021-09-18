@@ -2,9 +2,6 @@
   <v-container class="fullDisplay" fluid>
     <div id="app">
       <div>{{ textShow }}</div>
-      <!-- <v-btn class="buttonAdjuster" :color="color" depressed>
-        <v-icon> mdi-circle-slice-6 mdi-rotate-180 mdi-flip-h</v-icon>
-      </v-btn> -->
       <v-btn
         class="buttonAdjuster"
         color="primary"
@@ -15,8 +12,9 @@
             params: { difficulty: 'Easy' },
           })
         "
-        >Easy</v-btn
       >
+        Easy
+      </v-btn>
       <v-btn
         class="buttonAdjuster"
         color="primary"
@@ -46,9 +44,26 @@
         class="resultAdjuster"
         color="warning"
         @click.prevent="saveFile"
-        :disabled="buttonDisabler"
-        >Save results</v-btn
+        :disabled="!easyDone"
       >
+        Save Easy
+      </v-btn>
+      <v-btn
+        class="resultAdjuster"
+        color="warning"
+        @click.prevent="saveFile"
+        :disabled="!mediumDone"
+      >
+        Save Medium
+      </v-btn>
+      <v-btn
+        class="resultAdjuster"
+        color="warning"
+        @click.prevent="saveFile"
+        :disabled="!hardDone"
+      >
+        Save Hard
+      </v-btn>
     </div>
   </v-container>
 </template>
@@ -66,37 +81,67 @@ export default {
       easy: this.$store.state.easy,
       medium: this.$store.state.medium,
       hard: this.$store.state.hard,
-      buttonDisabler: false,
       participant: this.$store.state.participant,
       textShow: "",
     };
   },
   components: {},
   methods: {
-    async saveFile() {
-      this.buttonDisabler = true;
+    async saveFile(fileName) {
       try {
-        let blob = new Blob(
-          [
-            JSON.stringify({
-              easy: [...this.easy],
-              medium: [...this.medium],
-              hard: [...this.hard],
-            }),
-          ],
-          {
-            type: "application/json",
-          }
-        );
+        let blob;
+        switch (fileName) {
+          case "easy":
+            new Blob(
+              [
+                JSON.stringify({
+                  easy: [...this.easy],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("easySetter", []);
+            this.easyDone = true;
+            break;
+          case "medium":
+            new Blob(
+              [
+                JSON.stringify({
+                  medium: [...this.medium],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("mediumSetter", []);
+            this.mediumDone = true;
+            break;
+          case "hard":
+            new Blob(
+              [
+                JSON.stringify({
+                  hard: [...this.hard],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("hardSetter", []);
+            this.hardDone = true;
+            break;
+        }
         await saveAs(
           blob,
-          `${this.participant} - PWA accel - ${new Date().getTime()}.json`
+          `${
+            this.participant
+          } - ${fileName} - PWA accel - ${new Date().getTime()}.json`
         );
       } catch (error) {
         this.textShow = error;
-        console.log(error);
-      } finally {
-        this.buttonDisabler = false;
       }
     },
     async startCamera() {
@@ -110,9 +155,6 @@ export default {
   },
   mounted() {
     this.startCamera();
-    if (!(this.easyDone && this.mediumDone && this.hardDone)) {
-      this.buttonDisabler = true;
-    }
   },
 };
 </script>
@@ -130,6 +172,6 @@ export default {
   margin-right: 40px
 
 .resultAdjuster
-  width: 100%
+  margin-right: 20px
   margin-top: 50px
 </style>
