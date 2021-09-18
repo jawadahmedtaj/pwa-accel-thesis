@@ -95,6 +95,7 @@ export default {
     };
   },
   beforeCreate() {
+    this.startCamera();
     window.addEventListener("devicemotion", (event) => {
       this.sensor = `${
         Math.round((event.acceleration.x + Number.EPSILON) * 100) / 100
@@ -112,7 +113,6 @@ export default {
     });
   },
   mounted() {
-    this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
     setInterval(this.streamWatcher, 10);
