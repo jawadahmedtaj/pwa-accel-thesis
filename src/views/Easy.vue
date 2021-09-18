@@ -95,14 +95,24 @@ export default {
       }, ${Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100}, ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
       }`;
-      this.holder.push({
-        sensorValue: this.sensor,
-        time: new Date().getTime(),
-        baseline: this.baseline,
-        answered: false,
-        pattern: this.easyPattern,
-        imageData: this.photo.toDataURL("image/jpeg") || "",
-      });
+      // this.holder.push({
+      //   sensorValue: this.sensor,
+      //   time: new Date().getTime(),
+      //   baseline: this.baseline,
+      //   answered: false,
+      //   pattern: this.easyPattern,
+      //   imageData: this.photo.toDataURL("image/jpeg") || "",
+      // });
+      this.$store.commit("easySetter", [
+        {
+          sensorValue: this.sensor,
+          time: new Date().getTime(),
+          baseline: this.baseline,
+          answered: false,
+          pattern: this.easyPattern,
+          imageData: this.photo.toDataURL("image/jpeg") || "",
+        },
+      ]);
     });
   },
   mounted() {
@@ -209,16 +219,28 @@ export default {
         if (type) this.color = "red lighten-3";
         else this.color = "green lighten-3";
       }
-      this.holder.push({
-        sensorValue: this.sensor,
-        time: new Date().getTime(),
-        correct: correct,
-        baseline: this.baseline,
-        answered: true,
-        answer: type ? "Yes" : "No",
-        pattern: this.easyPattern,
-        imageData: this.photo.toDataURL("image/jpeg") || "",
-      });
+      // this.holder.push({
+      //   sensorValue: this.sensor,
+      //   time: new Date().getTime(),
+      //   correct: correct,
+      //   baseline: this.baseline,
+      //   answered: true,
+      //   answer: type ? "Yes" : "No",
+      //   pattern: this.easyPattern,
+      //   imageData: this.photo.toDataURL("image/jpeg") || "",
+      // });
+      this.$store.commit("easySetter", [
+        {
+          sensorValue: this.sensor,
+          time: new Date().getTime(),
+          correct: correct,
+          baseline: this.baseline,
+          answered: true,
+          answer: type ? "Yes" : "No",
+          pattern: this.easyPattern,
+          imageData: this.photo.toDataURL("image/jpeg") || "",
+        },
+      ]);
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
     shuffle(array) {
@@ -244,7 +266,7 @@ export default {
   beforeDestroy() {
     clearInterval(this.questionChanger);
     clearInterval(this.streamWatcher);
-    this.$store.commit("easySetter", this.holder);
+    // this.$store.commit("easySetter", this.holder);
   },
 };
 </script>

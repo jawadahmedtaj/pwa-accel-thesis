@@ -31,7 +31,7 @@ export default new Vuex.Store({
       state.participant = name;
     },
     setDifficulty(state, difficulty) {
-      state.[difficulty] = true;
+      state[difficulty] = true;
     },
     countSetter(state, count) {
       state.counter = count;
