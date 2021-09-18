@@ -95,7 +95,6 @@ export default {
     };
   },
   beforeCreate() {
-    this.startCamera();
     window.addEventListener("devicemotion", (event) => {
       this.sensor = `${
         Math.round((event.acceleration.x + Number.EPSILON) * 100) / 100
@@ -108,14 +107,15 @@ export default {
         baseline: this.baseline,
         answered: false,
         pattern: this.easyPattern,
-        imageData: this.photo.toDataURL("image/jpeg") || "",
+        // imageData: this.photo.toDataURL("image/jpeg") || "",
       });
     });
   },
   mounted() {
+    // this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
-    setInterval(this.streamWatcher, 10);
+    // setInterval(this.streamWatcher, 10);
   },
   methods: {
     async startCamera() {
@@ -223,7 +223,7 @@ export default {
         answered: true,
         answer: type ? "Yes" : "No",
         pattern: this.easyPattern,
-        imageData: this.photo.toDataURL("image/jpeg") || "",
+        // imageData: this.photo.toDataURL("image/jpeg") || "",
       });
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
@@ -248,9 +248,8 @@ export default {
     },
   },
   beforeDestroy() {
-    console.log("Before destroy");
     clearInterval(this.questionChanger);
-    clearInterval(this.streamWatcher);
+    // clearInterval(this.streamWatcher);
     this.$store.commit("easySetter", this.holder);
   },
 };
