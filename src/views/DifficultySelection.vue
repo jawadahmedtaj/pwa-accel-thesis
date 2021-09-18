@@ -1,79 +1,91 @@
 <template>
   <v-container class="fullDisplay" fluid>
-    <div id="app">
-      <div>{{ textShow }}</div>
-      <v-btn
-        class="buttonAdjuster"
-        color="primary"
-        :disabled="easyDone"
-        @click="
-          $router.push({
-            name: 'Resting',
-            params: { difficulty: 'Easy' },
-          })
-        "
-      >
-        Easy
-      </v-btn>
-      <v-btn
-        class="buttonAdjuster"
-        color="primary"
-        @click="
-          $router.push({
-            name: 'Resting',
-            params: { difficulty: 'Medium' },
-          })
-        "
-        :disabled="mediumDone"
-        >Medium</v-btn
-      >
-      <v-btn
-        color="primary"
-        @click="
-          $router.push({
-            name: 'Resting',
-            params: { difficulty: 'Hard' },
-          })
-        "
-        :disabled="hardDone"
-        >Hard</v-btn
-      >
-    </div>
+    <div>{{ textShow }}</div>
+    <v-container>
+      <v-row justify="center" align="center">
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-btn
+            class="pa-1 ma-1"
+            color="primary"
+            :disabled="easyDone"
+            @click="
+              $router.push({
+                name: 'Resting',
+                params: { difficulty: 'Easy' },
+              })
+            "
+          >
+            Easy
+          </v-btn></v-col
+        >
+        <v-col>
+          <v-btn
+            class="pa-1 ma-1"
+            color="primary"
+            @click="
+              $router.push({
+                name: 'Resting',
+                params: { difficulty: 'Medium' },
+              })
+            "
+            :disabled="mediumDone"
+          >
+            Medium
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn
+            color="primary"
+            @click="
+              $router.push({
+                name: 'Resting',
+                params: { difficulty: 'Hard' },
+              })
+            "
+            :disabled="hardDone"
+          >
+            Hard
+          </v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
+      </v-row>
+    </v-container>
     <v-container fluid>
       <v-row justify="center" align="center">
         <v-spacer></v-spacer>
         <v-col>
           <v-btn
-            class="resultAdjuster"
+            class="pa-1 ma-1"
             color="warning"
             @click.prevent="saveFile"
             :disabled="!easyDone"
           >
-            Save Easy
+            <v-icon>mdi-content-save</v-icon> Easy
           </v-btn>
         </v-col>
         <v-col>
           <v-btn
-            class="resultAdjuster"
+            class="pa-1 ma-1"
             color="warning"
             @click.prevent="saveFile"
             :disabled="!mediumDone"
           >
-            Save Medium
-          </v-btn></v-col
-        >
+            <v-icon>mdi-content-save</v-icon> Medium
+          </v-btn>
+        </v-col>
         <v-col>
           <v-btn
-            class="resultAdjuster"
+            class="pa-1 ma-1"
             color="warning"
             @click.prevent="saveFile"
             :disabled="!hardDone"
           >
-            Save Hard
-          </v-btn></v-col
-        >
+            <v-icon>mdi-content-save</v-icon> Hard
+          </v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
       </v-row>
-      <v-spacer></v-spacer>
     </v-container>
   </v-container>
 </template>
@@ -171,15 +183,10 @@ export default {
 
 <style lang="sass" scoped>
 .fullDisplay
-  width: 100%
   height: 100vh
   display: flex
-  align-items: center
   justify-content: center
   flex-direction: column
-
-.buttonAdjuster
-  margin-right: 40px
 
 .resultAdjuster
   margin-top: 50px
