@@ -66,6 +66,8 @@ export default {
       mediumPattern: this.$store.state.mediumPattern,
       displayPattern: [],
       patternRandomizer: [true, true, false],
+      stream: null,
+      photo: null,
     };
   },
   beforeCreate() {

@@ -1,6 +1,31 @@
 <template>
   <v-container class="fullDisplay" fluid>
     <div>
+      <canvas v-if="photo">
+        <img
+          :src="photo.toDataURL('image/jpeg')"
+          alt="Photo"
+          class="h-120 w-120"
+      /></canvas>
+      <!-- <article v-if="photo">
+        <img
+          :src="photo.toDataURL('image/jpeg')"
+          alt="Photo"
+          class="h-64 w-64"
+        />
+      </article> -->
+    </div>
+    <div>
+      <video
+        ref="video"
+        autoplay
+        muted
+        playsinline
+        width="10px"
+        height="10px"
+      />
+    </div>
+    <div>
       <h5>{{ textShow }}</h5>
     </div>
     <div>
@@ -41,6 +66,8 @@
 </template>
 
 <script>
+import loadImage from "blueimp-load-image";
+
 export default {
   name: "Easy",
   data() {
@@ -62,6 +89,9 @@ export default {
       easyPattern: this.$store.state.easyPattern,
       displayPattern: [],
       patternRandomizer: [true, false],
+      stream: null,
+      photo: undefined,
+      ready: false,
     };
   },
   beforeCreate() {
@@ -77,14 +107,64 @@ export default {
         baseline: this.baseline,
         answered: false,
         pattern: this.easyPattern,
+        imageData: this.photo.toDataURL("image/jpeg") || "",
       });
     });
   },
   mounted() {
+    this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
+    setInterval(this.streamWatcher, 10);
   },
   methods: {
+    async startCamera() {
+      this.stream = await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+        },
+      });
+
+      this.$refs.video.srcObject = this.stream;
+
+      this.$refs.video.onloadedmetadata = () => {
+        this.ready = true;
+      };
+
+      this.$refs.video.onended = () => {
+        this.ready = false;
+        this.stream = null;
+      };
+    },
+    streamWatcher() {
+      if (this.ready && this.stream) {
+        //TODO Load context - Haarcascade
+        //TODO Draw on canvas
+        let video = this.$refs.video;
+
+        let videoCanvas = document.createElement("canvas");
+        videoCanvas.height = video.videoHeight;
+        videoCanvas.width = video.videoWidth;
+        let videoContext = videoCanvas.getContext("2d");
+
+        videoContext.drawImage(video, 0, 0);
+
+        this.photo = loadImage.scale(videoCanvas, {
+          maxHeight: 1080,
+          maxWidth: 1080,
+          cover: true,
+          crop: true,
+          canvas: true,
+        });
+
+        // this.utils.createFileFromUrl(this.faceCascadeFile, this.faceCascadeFile, () => {
+        //   this.classifier.load(this.faceCascadeFile); // in the callback, load the cascade from file
+        // });
+        // console.log(src);
+        // console.log(this.photo.toDataURL("image/jpeg"));
+      }
+    },
     questionChanger() {
       this.color = "grey lighten-3";
       if (this.isStopped) {
@@ -143,6 +223,7 @@ export default {
         answered: true,
         answer: type ? "Yes" : "No",
         pattern: this.easyPattern,
+        imageData: this.photo.toDataURL("image/jpeg") || "",
       });
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
@@ -167,7 +248,9 @@ export default {
     },
   },
   beforeDestroy() {
+    console.log("Before destroy");
     clearInterval(this.questionChanger);
+    clearInterval(this.streamWatcher);
     this.$store.commit("easySetter", this.holder);
   },
 };

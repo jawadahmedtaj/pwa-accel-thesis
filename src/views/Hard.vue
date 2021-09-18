@@ -66,6 +66,8 @@ export default {
       hardPattern: this.$store.state.hardPattern,
       displayPattern: [],
       patternRandomizer: [true, true, true, false],
+      stream: null,
+      photo: null,
     };
   },
   beforeCreate() {

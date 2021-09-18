@@ -42,13 +42,10 @@
       >
     </div>
     <div>
-      <v-btn
-        class="resultAdjuster"
-        color="warning"
-        @click.prevent="saveFile"
-        :disabled="buttonDisabler"
+      <v-btn class="resultAdjuster" color="warning" @click.prevent="saveFile"
         >Save results</v-btn
       >
+      <!-- :disabled="buttonDisabler" -->
     </div>
   </v-container>
 </template>
@@ -118,8 +115,17 @@ export default {
         this.buttonDisabler = false;
       }
     },
+    async startCamera() {
+      await navigator.mediaDevices.getUserMedia({
+        audio: false,
+        video: {
+          facingMode: "user",
+        },
+      });
+    },
   },
   mounted() {
+    this.startCamera();
     if (!(this.easyDone && this.mediumDone && this.hardDone)) {
       this.buttonDisabler = true;
     }
