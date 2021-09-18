@@ -39,32 +39,42 @@
         >Hard</v-btn
       >
     </div>
-    <div>
-      <v-btn
-        class="resultAdjuster"
-        color="warning"
-        @click.prevent="saveFile"
-        :disabled="!easyDone"
-      >
-        Save Easy
-      </v-btn>
-      <v-btn
-        class="resultAdjuster"
-        color="warning"
-        @click.prevent="saveFile"
-        :disabled="!mediumDone"
-      >
-        Save Medium
-      </v-btn>
-      <v-btn
-        class="resultAdjuster"
-        color="warning"
-        @click.prevent="saveFile"
-        :disabled="!hardDone"
-      >
-        Save Hard
-      </v-btn>
-    </div>
+    <v-container fluid>
+      <v-row justify="center" align="center">
+        <v-spacer></v-spacer>
+        <v-col>
+          <v-btn
+            class="resultAdjuster"
+            color="warning"
+            @click.prevent="saveFile"
+            :disabled="!easyDone"
+          >
+            Save Easy
+          </v-btn>
+        </v-col>
+        <v-col>
+          <v-btn
+            class="resultAdjuster"
+            color="warning"
+            @click.prevent="saveFile"
+            :disabled="!mediumDone"
+          >
+            Save Medium
+          </v-btn></v-col
+        >
+        <v-col>
+          <v-btn
+            class="resultAdjuster"
+            color="warning"
+            @click.prevent="saveFile"
+            :disabled="!hardDone"
+          >
+            Save Hard
+          </v-btn></v-col
+        >
+      </v-row>
+      <v-spacer></v-spacer>
+    </v-container>
   </v-container>
 </template>
 
@@ -172,6 +182,5 @@ export default {
   margin-right: 40px
 
 .resultAdjuster
-  margin-right: 20px
   margin-top: 50px
 </style>
