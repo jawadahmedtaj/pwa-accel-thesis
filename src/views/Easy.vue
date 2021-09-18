@@ -1,24 +1,8 @@
 <template>
   <v-container class="fullDisplay" fluid>
-    <!-- <div>
-      <canvas v-if="photo">
-        <img
-          :src="photo.toDataURL('image/jpeg')"
-          alt="Photo"
-          class="h-120 w-120"
-      /></canvas>
-       
-    </div> -->
-    <!-- <div>
-      <video
-        ref="video"
-        autoplay
-        muted
-        playsinline
-        width="10px"
-        height="10px"
-      />
-    </div> -->
+    <div class="canvasRemover">
+      <video ref="video" autoplay muted playsinline width="1px" height="1px" />
+    </div>
     <div>
       <h5>{{ textShow }}</h5>
     </div>
@@ -83,7 +67,7 @@ export default {
       easyPattern: this.$store.state.easyPattern,
       displayPattern: [],
       patternRandomizer: [true, false],
-      stream: null,
+      stream: undefined,
       photo: undefined,
       ready: false,
     };
@@ -95,31 +79,31 @@ export default {
       }, ${Math.round((event.acceleration.y + Number.EPSILON) * 100) / 100}, ${
         Math.round((event.acceleration.z + Number.EPSILON) * 100) / 100
       }`;
-      // this.holder.push({
-      //   sensorValue: this.sensor,
-      //   time: new Date().getTime(),
-      //   baseline: this.baseline,
-      //   answered: false,
-      //   pattern: this.easyPattern,
-      //   imageData: this.photo.toDataURL("image/jpeg") || "",
-      // });
-      this.$store.commit("easySetter", [
-        {
-          sensorValue: this.sensor,
-          time: new Date().getTime(),
-          baseline: this.baseline,
-          answered: false,
-          pattern: this.easyPattern,
-          imageData: this.photo.toDataURL("image/jpeg") || "",
-        },
-      ]);
+      this.holder.push({
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
+        baseline: this.baseline,
+        answered: false,
+        pattern: this.easyPattern,
+        imageData: this.streamWatcher(),
+      });
+      // this.$store.commit("easySetter", [
+      //   {
+      //     sensorValue: this.sensor,
+      //     time: new Date().getTime(),
+      //     baseline: this.baseline,
+      //     answered: false,
+      //     pattern: this.easyPattern,
+      //     imageData: this.streamWatcher(),
+      //   },
+      // ]);
     });
   },
   mounted() {
     this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
-    setInterval(this.streamWatcher, 10);
+    // setInterval(this.streamWatcher, 10);
   },
   methods: {
     async startCamera() {
@@ -142,32 +126,24 @@ export default {
       };
     },
     streamWatcher() {
-      if (this.ready && this.stream) {
-        //TODO Load context - Haarcascade
-        //TODO Draw on canvas
-        let video = this.$refs.video;
+      let video = this.$refs.video;
 
-        let videoCanvas = document.createElement("canvas");
-        videoCanvas.height = video.videoHeight;
-        videoCanvas.width = video.videoWidth;
-        let videoContext = videoCanvas.getContext("2d");
+      let videoCanvas = document.createElement("canvas");
+      videoCanvas.height = video.videoHeight;
+      videoCanvas.width = video.videoWidth;
+      let videoContext = videoCanvas.getContext("2d");
 
-        videoContext.drawImage(video, 0, 0);
+      videoContext.drawImage(video, 0, 0);
 
-        this.photo = loadImage.scale(videoCanvas, {
-          maxHeight: 1080,
-          maxWidth: 1080,
-          cover: true,
-          crop: true,
-          canvas: true,
-        });
-
-        // this.utils.createFileFromUrl(this.faceCascadeFile, this.faceCascadeFile, () => {
-        //   this.classifier.load(this.faceCascadeFile); // in the callback, load the cascade from file
-        // });
-        // console.log(src);
-        // console.log(this.photo.toDataURL("image/jpeg"));
-      }
+      this.photo = loadImage.scale(videoCanvas, {
+        maxHeight: 1080,
+        maxWidth: 1080,
+        cover: true,
+        crop: true,
+        canvas: true,
+      });
+      // console.log(this.photo.toDataURL("image/jpeg"));
+      return this.photo.toDataURL("image/jpeg") || "";
     },
     questionChanger() {
       this.color = "grey lighten-3";
@@ -219,28 +195,28 @@ export default {
         if (type) this.color = "red lighten-3";
         else this.color = "green lighten-3";
       }
-      // this.holder.push({
-      //   sensorValue: this.sensor,
-      //   time: new Date().getTime(),
-      //   correct: correct,
-      //   baseline: this.baseline,
-      //   answered: true,
-      //   answer: type ? "Yes" : "No",
-      //   pattern: this.easyPattern,
-      //   imageData: this.photo.toDataURL("image/jpeg") || "",
-      // });
-      this.$store.commit("easySetter", [
-        {
-          sensorValue: this.sensor,
-          time: new Date().getTime(),
-          correct: correct,
-          baseline: this.baseline,
-          answered: true,
-          answer: type ? "Yes" : "No",
-          pattern: this.easyPattern,
-          imageData: this.photo.toDataURL("image/jpeg") || "",
-        },
-      ]);
+      this.holder.push({
+        sensorValue: this.sensor,
+        time: new Date().getTime(),
+        correct: correct,
+        baseline: this.baseline,
+        answered: true,
+        answer: type ? "Yes" : "No",
+        pattern: this.easyPattern,
+        imageData: this.streamWatcher(),
+      });
+      // this.$store.commit("easySetter", [
+      //   {
+      //     sensorValue: this.sensor,
+      //     time: new Date().getTime(),
+      //     correct: correct,
+      //     baseline: this.baseline,
+      //     answered: true,
+      //     answer: type ? "Yes" : "No",
+      //     pattern: this.easyPattern,
+      //     imageData: this.streamWatcher(),
+      //   },
+      // ]);
     },
     //? The de-facto unbiased shuffle algorithm is the Fisher-Yates (aka Knuth) Shuffle
     shuffle(array) {
@@ -265,8 +241,8 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.questionChanger);
-    clearInterval(this.streamWatcher);
-    // this.$store.commit("easySetter", this.holder);
+    // clearInterval(this.streamWatcher);
+    this.$store.commit("easySetter", this.holder);
   },
 };
 </script>
@@ -282,4 +258,8 @@ export default {
 
 .buttonAdjuster
   margin: 25px
+
+.canvasRemover
+  height: 1px
+  width: 1px
 </style>
