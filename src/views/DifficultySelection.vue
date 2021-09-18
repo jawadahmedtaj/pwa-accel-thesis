@@ -115,45 +115,39 @@ export default {
         switch (fileName) {
           case "easy":
             blob = new Blob(
-              [
-                JSON.stringify({
-                  easy: [...this.easy],
-                }),
-              ],
+              JSON.stringify({
+                easy: [...this.easy],
+              }),
               {
                 type: "application/json",
               }
             );
             this.$store.commit("easySetter", []);
-            this.easyDone = true;
+            this.easyDone = false;
             break;
           case "medium":
             blob = new Blob(
-              [
-                JSON.stringify({
-                  medium: [...this.medium],
-                }),
-              ],
+              JSON.stringify({
+                medium: [...this.medium],
+              }),
               {
                 type: "application/json",
               }
             );
             this.$store.commit("mediumSetter", []);
-            this.mediumDone = true;
+            this.mediumDone = false;
             break;
           case "hard":
             blob = new Blob(
-              [
-                JSON.stringify({
-                  hard: [...this.hard],
-                }),
-              ],
+              JSON.stringify({
+                hard: [...this.hard],
+              }),
               {
                 type: "application/json",
               }
             );
             this.$store.commit("hardSetter", []);
-            this.hardDone = true;
+            this.hardDone = false;
             break;
         }
         await saveAs(
