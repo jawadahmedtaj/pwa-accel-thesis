@@ -114,7 +114,7 @@ export default {
         let blob;
         switch (fileName) {
           case "easy":
-            new Blob(
+            blob = new Blob(
               [
                 JSON.stringify({
                   easy: [...this.easy],
@@ -128,7 +128,7 @@ export default {
             this.easyDone = true;
             break;
           case "medium":
-            new Blob(
+            blob = new Blob(
               [
                 JSON.stringify({
                   medium: [...this.medium],
@@ -142,7 +142,7 @@ export default {
             this.mediumDone = true;
             break;
           case "hard":
-            new Blob(
+            blob = new Blob(
               [
                 JSON.stringify({
                   hard: [...this.hard],
