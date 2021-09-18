@@ -58,7 +58,7 @@
           <v-btn
             class="pa-1 ma-1"
             color="warning"
-            @click.prevent="saveFile"
+            @click.prevent="saveFile('easy')"
             :disabled="!easyDone"
           >
             <v-icon>mdi-content-save</v-icon> Easy
@@ -68,7 +68,7 @@
           <v-btn
             class="pa-1 ma-1"
             color="warning"
-            @click.prevent="saveFile"
+            @click.prevent="saveFile('medium')"
             :disabled="!mediumDone"
           >
             <v-icon>mdi-content-save</v-icon> Medium
@@ -78,7 +78,7 @@
           <v-btn
             class="pa-1 ma-1"
             color="warning"
-            @click.prevent="saveFile"
+            @click.prevent="saveFile('hard')"
             :disabled="!hardDone"
           >
             <v-icon>mdi-content-save</v-icon> Hard
@@ -110,14 +110,17 @@ export default {
   components: {},
   methods: {
     async saveFile(fileName) {
+      console.log("filename", fileName);
       try {
         let blob;
         switch (fileName) {
           case "easy":
             blob = new Blob(
-              JSON.stringify({
-                easy: [...this.easy],
-              }),
+              [
+                JSON.stringify({
+                  easy: [...this.easy],
+                }),
+              ],
               {
                 type: "application/json",
               }
@@ -127,9 +130,11 @@ export default {
             break;
           case "medium":
             blob = new Blob(
-              JSON.stringify({
-                medium: [...this.medium],
-              }),
+              [
+                JSON.stringify({
+                  medium: [...this.medium],
+                }),
+              ],
               {
                 type: "application/json",
               }
@@ -139,9 +144,11 @@ export default {
             break;
           case "hard":
             blob = new Blob(
-              JSON.stringify({
-                hard: [...this.hard],
-              }),
+              [
+                JSON.stringify({
+                  hard: [...this.hard],
+                }),
+              ],
               {
                 type: "application/json",
               }
