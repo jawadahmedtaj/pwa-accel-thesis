@@ -10,7 +10,8 @@
       <v-btn class="buttonAdjuster" color="grey lighten-2" depressed>
         <v-icon>{{ character }}</v-icon>
       </v-btn>
-
+    </div>
+    <div>
       <v-btn class="buttonAdjuster" color="grey lighten-2" depressed
         ><v-icon>{{ pattern }}</v-icon></v-btn
       >
@@ -48,7 +49,7 @@ export default {
   beforeCreate() {},
   mounted() {
     if (this.count < 3) {
-      this.textShow = "Please remember this pattern";
+      this.textShow = "Please remember this pattern (Order will be randomized)";
       if (this.difficulty == "Easy") {
         this.number =
           this.numbers[Math.floor(Math.random() * this.numbers.length)];
