@@ -7,6 +7,7 @@ import Medium from "../views/Medium.vue";
 import Hard from "../views/Hard.vue";
 import Resting from "../views/Resting.vue";
 import ShowResults from "../views/ShowResults.vue";
+import ThankYou from "../views/ThankYou.vue";
 
 Vue.use(VueRouter);
 
@@ -40,6 +41,12 @@ const routes = [
     path: "/Resting",
     name: "Resting",
     component: Resting,
+    props: true
+  },
+  {
+    path: "/ThankYou",
+    name: "ThankYou",
+    component: ThankYou,
     props: true
   },
   {

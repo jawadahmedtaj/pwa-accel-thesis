@@ -112,7 +112,7 @@ export default {
 
         this.$router.push("/DifficultySelection");
       }
-    }, 30000);
+    }, 10000);
   },
 };
 </script>

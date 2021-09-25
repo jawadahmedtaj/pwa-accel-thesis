@@ -14,6 +14,9 @@
         <v-icon> {{ displayPattern[1] }}</v-icon>
       </v-btn>
     </div>
+    <div class="pa-0 ma-0">
+      <p class="pa-0 ma-0">x</p>
+    </div>
     <div>
       <v-btn class="buttonAdjuster" :color="color" depressed>
         <v-icon> {{ displayPattern[2] }}</v-icon>
@@ -163,7 +166,7 @@ export default {
         if (this.trialCount > 18) {
           this.isStopped = false;
           this.$router.push({
-            name: "Resting",
+            name: "ThankYou",
             params: { difficulty: "Easy" },
           });
         }
