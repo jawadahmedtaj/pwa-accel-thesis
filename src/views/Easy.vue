@@ -125,8 +125,8 @@ export default {
       let videoContext = videoCanvas.getContext("2d");
       videoContext.drawImage(video, 0, 0);
       this.photo = loadImage.scale(videoCanvas, {
-        maxHeight: 200,
-        maxWidth: 200,
+        maxHeight: 500,
+        maxWidth: 500,
         imageSmoothingEnabled: false,
         meta: false,
         cover: true,
