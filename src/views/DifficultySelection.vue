@@ -51,7 +51,7 @@
         <v-spacer></v-spacer>
       </v-row>
     </v-container>
-    <v-container fluid>
+    <!-- <v-container fluid>
       <v-row justify="center" align="center">
         <v-spacer></v-spacer>
         <v-col>
@@ -86,12 +86,12 @@
         </v-col>
         <v-spacer></v-spacer>
       </v-row>
-    </v-container>
+    </v-container> -->
   </v-container>
 </template>
 
 <script>
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 
 export default {
   name: "DifficultySelection",
@@ -109,64 +109,63 @@ export default {
   },
   components: {},
   methods: {
-    async saveFile(fileName) {
-      console.log("filename", fileName);
-      try {
-        let blob;
-        switch (fileName) {
-          case "easy":
-            blob = new Blob(
-              [
-                JSON.stringify({
-                  easy: [...this.easy],
-                }),
-              ],
-              {
-                type: "application/json",
-              }
-            );
-            this.$store.commit("easySetter", []);
-            this.easyDone = false;
-            break;
-          case "medium":
-            blob = new Blob(
-              [
-                JSON.stringify({
-                  medium: [...this.medium],
-                }),
-              ],
-              {
-                type: "application/json",
-              }
-            );
-            this.$store.commit("mediumSetter", []);
-            this.mediumDone = false;
-            break;
-          case "hard":
-            blob = new Blob(
-              [
-                JSON.stringify({
-                  hard: [...this.hard],
-                }),
-              ],
-              {
-                type: "application/json",
-              }
-            );
-            this.$store.commit("hardSetter", []);
-            this.hardDone = false;
-            break;
-        }
-        await saveAs(
-          blob,
-          `${
-            this.participant
-          } - ${fileName} - PWA accel - ${new Date().getTime()}.json`
-        );
-      } catch (error) {
-        this.textShow = error;
-      }
-    },
+    // async saveFile(fileName) {
+    //   try {
+    //     let blob;
+    //     switch (fileName) {
+    //       case "easy":
+    //         blob = new Blob(
+    //           [
+    //             JSON.stringify({
+    //               easy: [...this.easy],
+    //             }),
+    //           ],
+    //           {
+    //             type: "application/json",
+    //           }
+    //         );
+    //         this.$store.commit("easySetter", []);
+    //         this.easyDone = false;
+    //         break;
+    //       case "medium":
+    //         blob = new Blob(
+    //           [
+    //             JSON.stringify({
+    //               medium: [...this.medium],
+    //             }),
+    //           ],
+    //           {
+    //             type: "application/json",
+    //           }
+    //         );
+    //         this.$store.commit("mediumSetter", []);
+    //         this.mediumDone = false;
+    //         break;
+    //       case "hard":
+    //         blob = new Blob(
+    //           [
+    //             JSON.stringify({
+    //               hard: [...this.hard],
+    //             }),
+    //           ],
+    //           {
+    //             type: "application/json",
+    //           }
+    //         );
+    //         this.$store.commit("hardSetter", []);
+    //         this.hardDone = false;
+    //         break;
+    //     }
+    //     await saveAs(
+    //       blob,
+    //       `${
+    //         this.participant
+    //       } - ${fileName} - PWA accel - ${new Date().getTime()}.json`
+    //     );
+    //   } catch (error) {
+    //     this.textShow = error;
+    //   }
+    // },
     async startCamera() {
       await navigator.mediaDevices.getUserMedia({
         audio: false,

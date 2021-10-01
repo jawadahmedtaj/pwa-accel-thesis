@@ -7,7 +7,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import { saveAs } from "file-saver";
 
 export default {
   name: "ThankYou",
@@ -16,10 +16,11 @@ export default {
     return {
       count: this.$store.state.counter,
       textShow: "",
+      easy: this.$store.state.easy,
+      medium: this.$store.state.medium,
+      hard: this.$store.state.hard,
     };
   },
-  components: {},
-  beforeCreate() {},
   mounted() {
     this.textShow =
       this.count === 3
@@ -32,18 +33,82 @@ export default {
       });
     }, 10000);
   },
+  created() {
+    if (!this.count === 3) this.saveFile(this.difficulty);
+  },
+  methods: {
+    async saveFile(fileName) {
+      try {
+        let blob;
+        switch (fileName) {
+          case "Easy":
+            blob = new Blob(
+              [
+                JSON.stringify({
+                  easy: [...this.easy],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("easySetter", []);
+            this.easyDone = false;
+            break;
+          case "Medium":
+            blob = new Blob(
+              [
+                JSON.stringify({
+                  medium: [...this.medium],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("mediumSetter", []);
+            this.mediumDone = false;
+            break;
+          case "Hard":
+            blob = new Blob(
+              [
+                JSON.stringify({
+                  hard: [...this.hard],
+                }),
+              ],
+              {
+                type: "application/json",
+              }
+            );
+            this.$store.commit("hardSetter", []);
+            this.hardDone = false;
+            break;
+        }
+        await saveAs(
+          blob,
+          `${
+            this.participant
+          } - ${fileName} - PWA accel - ${new Date().getTime()}_${
+            this.count
+          }.json`
+        );
+      } catch (error) {
+        this.textShow = error;
+      }
+    },
+  },
 };
 </script>
 
 <style lang="sass" scoped>
 .fullDisplay
-    width: 100%
-    height: 100vh
-    display: flex
-    align-items: center
-    justify-content: center
-    flex-direction: column
+  width: 100%
+  height: 100vh
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
 
 .buttonAdjuster
-    margin: 15px
+  margin: 15px
 </style>
