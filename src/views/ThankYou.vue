@@ -51,7 +51,6 @@ export default {
                 type: "application/json",
               }
             );
-            this.$store.commit("easySetter", []);
             break;
           case "Medium":
             blob = new Blob(
@@ -64,7 +63,6 @@ export default {
                 type: "application/json",
               }
             );
-            this.$store.commit("mediumSetter", []);
             break;
           case "Hard":
             blob = new Blob(
@@ -77,7 +75,6 @@ export default {
                 type: "application/json",
               }
             );
-            this.$store.commit("hardSetter", []);
             break;
         }
         await saveAs(
@@ -88,6 +85,9 @@ export default {
             this.count
           }.json`
         );
+        this.$store.commit("easySetter", []);
+        this.$store.commit("mediumSetter", []);
+        this.$store.commit("hardSetter", []);
       } catch (error) {
         this.textShow = error;
       }
