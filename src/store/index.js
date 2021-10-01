@@ -37,13 +37,16 @@ export default new Vuex.Store({
       state.counter = count;
     },
     easySetter(state, data) {
-      state.easy = data;
+      state.easy.splice(0)
+      state.easy.push(...data);
     },
     mediumSetter(state, data) {
-      state.medium = data;
+      state.medium.splice(0)
+      state.medium.push(...data);
     },
     hardSetter(state, data) {
-      state.hard = data;
+      state.hard.splice(0)
+      state.hard.push(...data);
     },
     easyPatternSetter(state, data) {
       state.easyPattern = data;

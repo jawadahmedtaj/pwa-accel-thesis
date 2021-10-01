@@ -77,7 +77,6 @@ export default {
     };
   },
   beforeCreate() {
-    this.$store.commit("hardSetter", []);
     window.addEventListener("devicemotion", (event) => {
       this.sensor = `${
         Math.round((event.acceleration.x + Number.EPSILON) * 100) / 100
