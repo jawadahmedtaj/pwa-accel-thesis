@@ -34,7 +34,7 @@ export default {
     }, 10000);
   },
   created() {
-    if (!this.count === 3) this.saveFile(this.difficulty);
+    if (!this.count === 0) this.saveFile(this.difficulty);
   },
   methods: {
     async saveFile(fileName) {
