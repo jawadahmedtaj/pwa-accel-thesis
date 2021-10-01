@@ -19,6 +19,7 @@ export default {
       easy: this.$store.state.easy,
       medium: this.$store.state.medium,
       hard: this.$store.state.hard,
+      participant: this.$store.state.participant,
     };
   },
   mounted() {
@@ -51,7 +52,6 @@ export default {
               }
             );
             this.$store.commit("easySetter", []);
-            this.easyDone = false;
             break;
           case "Medium":
             blob = new Blob(
@@ -65,7 +65,6 @@ export default {
               }
             );
             this.$store.commit("mediumSetter", []);
-            this.mediumDone = false;
             break;
           case "Hard":
             blob = new Blob(
@@ -79,7 +78,6 @@ export default {
               }
             );
             this.$store.commit("hardSetter", []);
-            this.hardDone = false;
             break;
         }
         await saveAs(
