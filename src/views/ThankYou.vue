@@ -85,9 +85,6 @@ export default {
             this.count
           }.json`
         );
-        this.$store.commit("easySetter", []);
-        this.$store.commit("mediumSetter", []);
-        this.$store.commit("hardSetter", []);
       } catch (error) {
         this.textShow = error;
       }

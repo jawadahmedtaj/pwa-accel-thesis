@@ -93,6 +93,7 @@ export default {
     });
   },
   mounted() {
+    this.$store.commit("easySetter", []);
     this.startCamera();
     this.questionChanger();
     setInterval(this.questionChanger, 3000);
