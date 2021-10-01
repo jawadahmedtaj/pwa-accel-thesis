@@ -26,15 +26,13 @@ export default {
       this.count === 3
         ? "Thank you, you will be redirected to resting screen and then you can select next task"
         : "Thank you, the remembering period will start again soon!";
+    this.saveFile(this.difficulty);
     setTimeout(() => {
       this.$router.push({
         name: "Resting",
         params: { difficulty: this.difficulty },
       });
     }, 10000);
-  },
-  created() {
-    if (!this.count === 0) this.saveFile(this.difficulty);
   },
   methods: {
     async saveFile(fileName) {
