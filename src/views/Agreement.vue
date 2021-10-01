@@ -12,6 +12,7 @@
       <v-row>
         <v-col class="px-0">
           <p>
+          400x400 
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur,
             quos quod eligendi consequuntur molestiae excepturi aspernatur omnis
             incidunt nisi nam tempore sequi vero culpa ex, ipsum dignissimos
