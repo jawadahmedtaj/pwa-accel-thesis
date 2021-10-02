@@ -137,6 +137,7 @@ export default {
       return this.photo.toDataURL("image/jpeg") || "";
     },
     questionChanger() {
+      this.color = "grey lighten-3";
       if (this.isStopped) {
         if (this.trialCount % 2 === 0) {
           this.selected = true;
@@ -172,7 +173,7 @@ export default {
         if (this.trialCount > 18) {
           this.isStopped = false;
           this.$router.push({
-            name: "Resting",
+            name: "ThankYou",
             params: { difficulty: "Medium" },
           });
         }

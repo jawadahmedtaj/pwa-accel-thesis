@@ -178,13 +178,11 @@ export default {
         if (this.trialCount > 18) {
           this.isStopped = false;
           this.$router.push({
-            name: "Resting",
+            name: "ThankYou",
             params: { difficulty: "Hard" },
           });
         }
         this.trialCount++;
-        console.log("Count: ", this.trialCount);
-        console.log("isSopped: ", this.isStopped);
       }
     },
     optionClicked(type) {
