@@ -88,6 +88,7 @@ export default {
         baseline: this.baseline,
         answered: false,
         pattern: this.easyPattern,
+        dispay: this.displayPattern,
         imageData: this.streamWatcher(),
       });
     });
@@ -192,6 +193,7 @@ export default {
         answered: true,
         answer: type ? "Yes" : "No",
         pattern: this.easyPattern,
+        dispay: this.displayPattern,
         imageData: this.streamWatcher(),
       });
     },

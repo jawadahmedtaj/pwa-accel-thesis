@@ -88,6 +88,7 @@ export default {
         time: new Date().getTime(),
         baseline: this.baseline,
         pattern: this.hardPattern,
+        dispay: this.displayPattern,
         imageData: this.streamWatcher(),
       });
     });
@@ -206,6 +207,7 @@ export default {
         answered: true,
         answer: type ? "Yes" : "No",
         pattern: this.hardPattern,
+        dispay: this.displayPattern,
         imageData: this.streamWatcher(),
       });
     },
