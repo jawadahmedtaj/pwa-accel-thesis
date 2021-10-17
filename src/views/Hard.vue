@@ -172,7 +172,6 @@ export default {
           this.patternRandomizer[3]
             ? (this.displayPattern[3] = this.hardPattern[3])
             : (this.displayPattern[3] = this.arrow);
-          this.shuffle(this.displayPattern);
           this.textShow = "Is this the correct pattern?";
         }
         if (this.trialCount > 18) {
@@ -188,10 +187,10 @@ export default {
     optionClicked(type) {
       this.selected = true;
       const correct =
-        this.hardPattern[0] == this.number &&
-        this.hardPattern[1] == this.character &&
-        this.hardPattern[2] == this.pattern &&
-        this.hardPattern[3] == this.arrow;
+        this.hardPattern[0] == this.displayPattern[0] &&
+        this.hardPattern[1] == this.displayPattern[1] &&
+        this.hardPattern[2] == this.displayPattern[2] &&
+        this.hardPattern[3] == this.displayPattern[3];
       if (correct) {
         if (type) this.color = "green lighten-3";
         else this.color = "red lighten-3";

@@ -49,7 +49,7 @@ export default {
   beforeCreate() {},
   mounted() {
     if (this.count < 3) {
-      this.textShow = "Please remember this pattern (Order will be randomized)";
+      this.textShow = "Please remember this pattern (And the order)";
       if (this.difficulty == "Easy") {
         this.number =
           this.numbers[Math.floor(Math.random() * this.numbers.length)];

@@ -51,42 +51,6 @@
         <v-spacer></v-spacer>
       </v-row>
     </v-container>
-    <!-- <v-container fluid>
-      <v-row justify="center" align="center">
-        <v-spacer></v-spacer>
-        <v-col>
-          <v-btn
-            class="pa-1 ma-1"
-            color="warning"
-            @click.prevent="saveFile('easy')"
-            :disabled="!easyDone"
-          >
-            <v-icon>mdi-content-save</v-icon> Easy
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn
-            class="pa-1 ma-1"
-            color="warning"
-            @click.prevent="saveFile('medium')"
-            :disabled="!mediumDone"
-          >
-            <v-icon>mdi-content-save</v-icon> Medium
-          </v-btn>
-        </v-col>
-        <v-col>
-          <v-btn
-            class="pa-1 ma-1"
-            color="warning"
-            @click.prevent="saveFile('hard')"
-            :disabled="!hardDone"
-          >
-            <v-icon>mdi-content-save</v-icon> Hard
-          </v-btn>
-        </v-col>
-        <v-spacer></v-spacer>
-      </v-row>
-    </v-container> -->
   </v-container>
 </template>
 
@@ -109,63 +73,6 @@ export default {
   },
   components: {},
   methods: {
-    // async saveFile(fileName) {
-    //   try {
-    //     let blob;
-    //     switch (fileName) {
-    //       case "easy":
-    //         blob = new Blob(
-    //           [
-    //             JSON.stringify({
-    //               easy: [...this.easy],
-    //             }),
-    //           ],
-    //           {
-    //             type: "application/json",
-    //           }
-    //         );
-    //         this.$store.commit("easySetter", []);
-    //         this.easyDone = false;
-    //         break;
-    //       case "medium":
-    //         blob = new Blob(
-    //           [
-    //             JSON.stringify({
-    //               medium: [...this.medium],
-    //             }),
-    //           ],
-    //           {
-    //             type: "application/json",
-    //           }
-    //         );
-    //         this.$store.commit("mediumSetter", []);
-    //         this.mediumDone = false;
-    //         break;
-    //       case "hard":
-    //         blob = new Blob(
-    //           [
-    //             JSON.stringify({
-    //               hard: [...this.hard],
-    //             }),
-    //           ],
-    //           {
-    //             type: "application/json",
-    //           }
-    //         );
-    //         this.$store.commit("hardSetter", []);
-    //         this.hardDone = false;
-    //         break;
-    //     }
-    //     await saveAs(
-    //       blob,
-    //       `${
-    //         this.participant
-    //       } - ${fileName} - PWA accel - ${new Date().getTime()}.json`
-    //     );
-    //   } catch (error) {
-    //     this.textShow = error;
-    //   }
-    // },
     async startCamera() {
       await navigator.mediaDevices.getUserMedia({
         audio: false,
