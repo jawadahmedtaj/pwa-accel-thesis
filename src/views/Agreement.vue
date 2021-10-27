@@ -11,51 +11,74 @@
       </v-row>
       <v-row>
         <v-col class="px-0">
+          <h3 class="text-center">INFORMED CONSENT</h3>
           <p>
-            Final fix Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Pariatur, quos quod eligendi consequuntur molestiae excepturi
-            aspernatur omnis incidunt nisi nam tempore sequi vero culpa ex,
-            ipsum dignissimos iure quasi. Veniam, culpa! Consequuntur mollitia
-            ipsam hic explicabo sit doloribus quam nulla dolores aliquam maxime
-            temporibus at ex fugit placeat, officiis perspiciatis quas
-            consequatur laudantium! Quidem magnam voluptatum sunt repellendus
-            repellat amet, sint corporis porro unde vel voluptatem eos nostrum
-            atque saepe facilis quis consectetur tempore distinctio beatae
-            dolorum magni eius, laboriosam doloremque! Ullam minus dolorem
-            labore maiores recusandae, vitae, earum facilis dicta reprehenderit,
-            beatae totam dolores accusamus enim! Et earum quidem qui facere
-            aliquam corrupti praesentium rerum ducimus delectus ratione odio
-            molestiae quas deleniti nihil laborum rem, blanditiis sed ex alias
-            libero tenetur aut! Eligendi vero in, porro atque nisi rerum quia
-            amet vitae impedit perspiciatis sunt quam aspernatur a molestias
-            dolor explicabo cum corporis eos dolores, fuga cumque! Reprehenderit
-            eligendi rem dignissimos totam aut quis illum, perspiciatis
-            perferendis molestiae praesentium, distinctio veniam iure ad saepe
-            blanditiis ducimus, officia corporis fuga! Architecto sunt
-            aspernatur deleniti eum nulla vero facilis provident voluptates
-            unde, amet rerum magnam totam reiciendis iusto, tenetur in sit
-            consectetur expedita ex quod ipsum maxime ratione. Repellat
-            praesentium repellendus, soluta illum nam aliquid porro nemo, non
-            voluptates velit quisquam hic dolore perspiciatis doloribus! Aut ex
-            quaerat omnis? Corrupti velit quasi similique facere illum, vitae
-            assumenda quae magni cum repellendus excepturi voluptatibus iusto
-            incidunt libero, nesciunt temporibus laudantium perferendis. Ad
-            excepturi tempora accusantium ullam omnis neque ea odio nesciunt id
-            provident molestiae vitae consectetur soluta reprehenderit illum
-            laborum unde, exercitationem recusandae praesentium distinctio
-            quisquam quo. Dolore sapiente vitae rem voluptatibus earum?
-            Molestiae quidem ad qui eum distinctio necessitatibus ullam atque
-            maxime. Explicabo dolor vero beatae veniam hic esse odit cumque
-            accusamus nemo, obcaecati iste optio fugiat. Explicabo facilis
-            incidunt quas.
+            According to the policies of the Deutschen Forschungsgemeinschaft
+            (DFG), participants need to agree that they participate voluntarily
+            in empirical studies. Therefore, we would like to ask you to
+            carefully read the informed consent and indicate your approval by
+            ticking the box below.
+          </p>
+          <p>
+            <span class="font-weight-bold">Research topc: </span>Recent research
+            has shown that the level of cognitive load can be indexed by
+            physiological parameters. In the current study, we aim to explore
+            new ways to determine mental workload during mobile phone usage.
+            Therefore, we apply selected measures (such as pupil diameter and
+            muscle tremor) to differentiate levels of cognitive processing
+            during a simple monitoring task.
+          </p>
+          <p>
+            <span class="font-weight-bold">Procedure: </span>Participants will
+            be asked to carry out a series of monitoring tasks on their phone.
+            Task difficulty will be varied, featuring different numbers of items
+            that have to be remembered and recognized. Behavioral data
+            (processing times, accuracy rates) will be collected while in
+            parallel, video streams from the front camera will be recorded to
+            determine pupil diameter. Furthermore, gyroscopic measures are
+            applied to investigate tremor movements of the hand as another
+            indicator for the level of cognitive processing.
+          </p>
+          <p>
+            <span class="font-weight-bold">Expense allowance: </span>
+            Participation takes about 30 minutes, a payment is not envisaged.
+            However, a 20€ voucher will be provided to the individual that
+            provides the best performance. Participants from this year’s
+            usability lecture can collect bonus points through participation.
+          </p>
+          <p>
+            <span class="font-weight-bold">Confidentiality: </span>
+            Data are stored anonymized without any conclusions to be drawn to
+            your person. Processed data might be published in scientific
+            journals and/or conferences.
+          </p>
+          <p>
+            <span class="font-weight-bold">Risks: </span>
+            Participation does not involve any dangers that go beyond the risk
+            of everyday life.
+          </p>
+          <p>
+            <span class="font-weight-bold">Voluntariness: </span>
+            Participation in the study is voluntary and can be ended at every
+            time without giving reasons or being penalized.
+          </p>
+          <p>
+            <span class="font-weight-bold">Questions? </span>
+            If you have any questions, do not hesitate to contact the
+            experimenter.
           </p>
         </v-col>
       </v-row>
       <v-row class="mb-2">
-        <input type="checkbox" class="mt-1" v-model="checkBoxBool" />
-        <label class="ml-1">I agree to the terms and conditions provided</label>
+        <span>
+          <input type="checkbox" class="mt-1" v-model="checkBoxBool" />
+          <label class="ml-1">
+            I hereby confirm that I’m over the age of 18 and that I read and
+            understood the above sentences
+          </label>
+        </span>
       </v-row>
-      <v-row>
+      <v-row justify="center" align="center">
         <v-btn
           color="success"
           @click="clickHandler"
